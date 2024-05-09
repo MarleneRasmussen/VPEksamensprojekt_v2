@@ -6,6 +6,7 @@ import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.controller.CheckCell;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.ui.Cells;
+import dungeonCrawlerGame.ui.EntityImage;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -16,7 +17,7 @@ public class Player implements Entity {
     private static int y;
     private double health;
     private int locationNumber;
-    private Direction direction;
+    public Direction direction;
     private Image image;
     private double damage;
     private boolean dead;
@@ -35,7 +36,6 @@ public class Player implements Entity {
         y = Config.LOCATION_HEIGHT / 2;
         playerSpeed = Config.DEFAULT_PLAYER_SPEED;
         collision = false;
-        direction = Direction.DOWN;
         health = Config.DEFAULT_PLAYER_HEALTH;
         this.damage = Config.DEFAULT_PLAYER_DAMAGE;
     }
@@ -44,14 +44,17 @@ public class Player implements Entity {
         if (KeyAction.up) {
             direction = Direction.UP;
         }
-        if (KeyAction.down) {
+        else if (KeyAction.down) {
             direction = Direction.DOWN;
         }
-        if (KeyAction.left) {
+        else if (KeyAction.left) {
             direction = Direction.LEFT;
         }
-        if (KeyAction.right) {
+        else if (KeyAction.right) {
             direction = Direction.RIGHT;
+        }
+        else{
+            direction = Direction.DOWN;
         }
         return direction;
     }
@@ -63,12 +66,13 @@ public class Player implements Entity {
 
     @Override
     public void moveEntity() {
-        direction = null;
-        direction = checkDirection();
-
-        collision = false;
-        //Check cell collision only inside current location if moving
         if (KeyAction.down || KeyAction.up || KeyAction.left || KeyAction.right) {
+            direction = null;
+            direction = checkDirection();
+
+            collision = false;
+            //Check cell collision only inside current location if moving
+
             if (x >= 1 && x + Config.CELL_SIZE + 1 <= Config.LOCATION_WIDTH
                     && y + Config.CELL_SIZE + 1 <= Config.LOCATION_HEIGHT && y >= 1) {
                 CheckCell.checkCellCollision(this);
@@ -111,7 +115,6 @@ public class Player implements Entity {
                 DungeonMap.getCurrentWorldLocation(this);
                 }
             }
-
     }
 
     public void setX(int x) {
@@ -164,17 +167,38 @@ public class Player implements Entity {
 
     @Override
     public Image getImage() {
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-
-        if (imageNum == 1) {
-            g.setColor(Color.BLUE);
-        } else {
-            g.setColor(Color.GREEN);
+        direction = null;
+        direction = checkDirection();
+        switch (direction) {
+            case UP:
+                if (imageNum == 1) {
+                    image = EntityImage.PLAYER_UP1.getImage();
+                } else if (imageNum == 2) {
+                    image = EntityImage.PLAYER_UP2.getImage();
+                }
+                break;
+            case DOWN:
+                if (imageNum == 1) {
+                    image = EntityImage.PLAYER_DOWN1.getImage();
+                } else if (imageNum == 2) {
+                    image = EntityImage.PLAYER_DOWN2.getImage();
+                }
+                break;
+            case LEFT:
+                if (imageNum == 1) {
+                    image = EntityImage.PLAYER_LEFT1.getImage();
+                } else if (imageNum == 2) {
+                    image = EntityImage.PLAYER_LEFT2.getImage();
+                }
+                break;
+            case RIGHT:
+                if (imageNum == 1) {
+                    image = EntityImage.PLAYER_RIGHT1.getImage();
+                } else if (imageNum == 2) {
+                    image = EntityImage.PLAYER_RIGHT2.getImage();
+                }
+                break;
         }
-        g.fillRect(0, 0, Config.CELL_SIZE, Config.CELL_SIZE);
-        g.dispose();
-
         return image;
     }
 
