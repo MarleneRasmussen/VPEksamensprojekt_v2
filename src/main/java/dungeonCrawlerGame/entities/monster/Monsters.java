@@ -1,5 +1,7 @@
 package dungeonCrawlerGame.entities.monster;
 
+import dungeonCrawlerGame.Config;
+import dungeonCrawlerGame.gameWindow.GameDisplay;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
@@ -28,6 +30,24 @@ public class Monsters {
         }
     }
 
+    public void checkCollision()
+    {
+        for (Monster monster : monsters)
+        {
+            if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
+            {
+                if (monster.getPosX() < GameDisplay.player.getPosX() + Config.CELL_SIZE &&
+                        monster.getPosX() + Config.CELL_SIZE > GameDisplay.player.getPosX() &&
+                        monster.getPosY() < GameDisplay.player.getPosY() + Config.CELL_SIZE &&
+                        monster.getPosY() + Config.CELL_SIZE > GameDisplay.player.getPosY())
+                {
+                    GameDisplay.player.takeDamage(monster.attacks());
+                    System.out.println("Player health: " + GameDisplay.player.getHealth());
+                }
+            }
+        }
+    }
+
     public List<Monster> getMonsters()
     {
         return monsters;
@@ -39,7 +59,7 @@ public class Monsters {
         {
             if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                g2d.drawImage(monster.getImage(), monster.getX(), monster.getY(), null);
+                g2d.drawImage(monster.getImage(), monster.getPosX(), monster.getPosY(), null);
             }
         }
     }

@@ -6,16 +6,16 @@ import java.awt.*;
 
 public interface Entity {
 
-    public int getX();
-    public int getY();
-    public int getHealth();
+    public int getPosX();
+    public int getPosY();
+    public double getHealth();
     public int getLocationNumber();
     public Direction getDirection();
     public Image getImage();
-    public int getDamage();
+    public double attacks();
     public boolean isDead();
     public void moveEntity();
-    public void setHealth(int i);
+    public void takeDamage(double i);
     public int getSpeed();
-
+    public void setCollision(boolean collision);
 }

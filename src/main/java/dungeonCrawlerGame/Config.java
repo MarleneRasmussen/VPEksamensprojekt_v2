@@ -13,4 +13,6 @@ public class Config {
     public static final double INTERVAL = (double) 1000000000 /FPS;
     public static final int DEFAULT_PLAYER_SPEED = 4;
     public static final int DEFAULT_MONSTER_SPEED = 2;
+    public static final double DEFAULT_PLAYER_HEALTH = 100.0;
+    public static final double DEFAULT_PLAYER_DAMAGE = 1;
 }

@@ -16,24 +16,24 @@ public class DungeonMap {
     }
 
     private static final int[][] worldMap = {
-            {1,  2, 3,  4},
-            {5,  6, 7,  8},
+            {1,  2,  3,  4},
+            {5,  6,  7,  8},
             {9, 10, 11, 12}};
 
     public static void getCurrentWorldLocation(Player player) {
-        if (player.getX() > Config.LOCATION_WIDTH) {
+        if (player.getPosX() > Config.LOCATION_WIDTH) {
             player.setX(0);
             worldColumn++;
         }
-        if (player.getX() < 0) {
+        if (player.getPosX() < 0) {
             player.setX(Config.LOCATION_WIDTH);
             worldColumn--;
         }
-        if (player.getY() > Config.LOCATION_HEIGHT) {
+        if (player.getPosY() > Config.LOCATION_HEIGHT) {
             player.setY(0);
             worldRow++;
         }
-        if (player.getY() < 0) {
+        if (player.getPosY() < 0) {
             player.setY(Config.LOCATION_HEIGHT);
             worldRow--;
         }

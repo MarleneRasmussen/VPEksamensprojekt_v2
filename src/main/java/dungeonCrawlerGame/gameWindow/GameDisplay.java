@@ -1,6 +1,7 @@
 package dungeonCrawlerGame.gameWindow;
 
 import dungeonCrawlerGame.controller.Direction;
+import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.entities.Player;
 import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.monster.Monsters;
@@ -9,14 +10,12 @@ import dungeonCrawlerGame.locations.DungeonMap;
 
 import dungeonCrawlerGame.ui.GameRender;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class GameDisplay {
 
-    //public static List<GameObject> gameObjects;
     public static Monsters monsters;
     public static Player player;
+    public static int currentLocationNum;
 
     public GameDisplay(int width, int height) {
         GameFrame gameFrame = new GameFrame(width, height);
@@ -26,10 +25,9 @@ public class GameDisplay {
         player = new Player();
 
         monsters = new Monsters();
-        monsters.addMonster(new Monster( 100, 100, 1, Direction.DOWN));
+        monsters.addMonster(new Monster( 100, 100, 1, Direction.DOWN, EnemyProperties.SKELETON));
+        monsters.addMonster(new Monster( 100, 100,  2, Direction.RIGHT, EnemyProperties.BAT));
 
-        //gameObjects = new ArrayList<>();
-        //gameObjects.add(new Monsterssssss(100,100,1, Direction.DOWN));
     }
 
     public static void renderGame() {

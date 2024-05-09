@@ -1,9 +1,6 @@
 package dungeonCrawlerGame.ui;
 
-import dungeonCrawlerGame.entities.monster.Monster;
-import dungeonCrawlerGame.entities.monster.Monsters;
 import dungeonCrawlerGame.gameWindow.GameDisplay;
-import dungeonCrawlerGame.locations.DungeonMap;
 
 
 import java.awt.*;
@@ -23,17 +20,14 @@ public class GameRender {
         graphics.setColor(Color.BLACK);
         graphics.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
+        //Draw current location
         LocationRender.drawCurrentLocation(g2d);
 
-        g2d.drawImage(GameDisplay.player.getImage(), GameDisplay.player.getX(), GameDisplay.player.getY(), null);
+        //Draw player
+        g2d.drawImage(GameDisplay.player.getImage(), GameDisplay.player.getPosX(), GameDisplay.player.getPosY(), null);
 
+        //Draw monsters in current location
         GameDisplay.monsters.drawMonsters(g2d);
-
-        //Render objects
-        /*for(GameObject gameObject : GameDisplay.gameObjects){
-            if (gameObject.getLocation() == DungeonMap.getCurrentWorldLocation()) {
-                g2d.drawImage(gameObject.getImage(), gameObject.position.getX(), gameObject.position.getY(), null);
-            }*/
 
         graphics.dispose();
         bufferStrategy.show();

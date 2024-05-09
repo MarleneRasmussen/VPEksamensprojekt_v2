@@ -3,6 +3,7 @@ package dungeonCrawlerGame.entities;
 import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.controller.Direction;
 import dungeonCrawlerGame.controller.KeyAction;
+import dungeonCrawlerGame.controller.CheckCell;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.ui.Cells;
 
@@ -13,15 +14,15 @@ public class Player implements Entity {
 
     private static int x;
     private static int y;
-    private int health;
+    private double health;
     private int locationNumber;
     private Direction direction;
     private Image image;
-    private int damage;
+    private double damage;
     private boolean dead;
 
     private int playerSpeed;
-    private boolean collision = false;
+    public boolean collision;
     private int imageCounter = 0;
     private int imageNum = 1;
 
@@ -35,6 +36,8 @@ public class Player implements Entity {
         playerSpeed = Config.DEFAULT_PLAYER_SPEED;
         collision = false;
         direction = Direction.DOWN;
+        health = Config.DEFAULT_PLAYER_HEALTH;
+        this.damage = Config.DEFAULT_PLAYER_DAMAGE;
     }
 
     public Direction checkDirection() {
@@ -65,49 +68,52 @@ public class Player implements Entity {
 
         collision = false;
         //Check cell collision only inside current location if moving
-        /*if (KeyAction.down || KeyAction.up || KeyAction.left || KeyAction.right) {
-            if (playerPosX >= 5 && playerPosX + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH
-                    && playerPosY + Config.CELL_SIZE + 5 <= Config.LOCATION_HEIGHT && playerPosY >= 5) {
+        if (KeyAction.down || KeyAction.up || KeyAction.left || KeyAction.right) {
+            if (x >= 1 && x + Config.CELL_SIZE + 1 <= Config.LOCATION_WIDTH
+                    && y + Config.CELL_SIZE + 1 <= Config.LOCATION_HEIGHT && y >= 1) {
                 CheckCell.checkCellCollision(this);
-                getPlayerSpeed(CheckCell.getCurrentCell(this));
-            }*/
-
-        if (direction != null && !collision) {
-            switch (direction) {
-                case UP:
-                    if (x >= 10 && x + Config.CELL_SIZE + 10 <= Config.LOCATION_WIDTH) {
-                        y -= playerSpeed;
-                    }
-                    break;
-                case DOWN:
-                    if (x >= 10 && x + Config.CELL_SIZE + 10 <= Config.LOCATION_WIDTH) {
-                        y += playerSpeed;
-                    }
-                    break;
-                case LEFT:
-                    if (y + Config.CELL_SIZE + 10 <= Config.LOCATION_HEIGHT && y >= 10) {
-                        x -= playerSpeed;
-                    }
-                    break;
-                case RIGHT:
-                    if (y + Config.CELL_SIZE + 10 <= Config.LOCATION_HEIGHT && y >= 10) {
-                        x += playerSpeed;
-                    }
-                    break;
+                setPlayerSpeed(CheckCell.getCurrentCell(this));
             }
 
-            imageCounter++;
-            if (imageCounter > 12) {
-                if (imageNum == 1) {
-                    imageNum = 2;
-                } else if (imageNum == 2) {
-                    imageNum = 1;
+            if (direction != null && !collision) {
+                    switch (direction) {
+                        case UP:
+                            if (x >= 10 && x + Config.CELL_SIZE + 10 <= Config.LOCATION_WIDTH) {
+                                y -= playerSpeed;
+                            }
+                            break;
+                        case DOWN:
+                            if (x >= 10 && x + Config.CELL_SIZE + 10 <= Config.LOCATION_WIDTH) {
+                                y += playerSpeed;
+                            }
+                            break;
+                        case LEFT:
+                            if (y + Config.CELL_SIZE + 10 <= Config.LOCATION_HEIGHT && y >= 10) {
+                                x -= playerSpeed;
+                            }
+                            break;
+                        case RIGHT:
+                            if (y + Config.CELL_SIZE + 10 <= Config.LOCATION_HEIGHT && y >= 10) {
+                                x += playerSpeed;
+                            }
+                            break;
+                    }
+
+                    imageCounter++;
+                    if (imageCounter > 12) {
+                        if (imageNum == 1) {
+                            imageNum = 2;
+                        } else if (imageNum == 2) {
+                            imageNum = 1;
+                        }
+                        imageCounter = 0;
+                    }
+                DungeonMap.getCurrentWorldLocation(this);
                 }
-                imageCounter = 0;
             }
-            DungeonMap.getCurrentWorldLocation(this);
-        }
+
     }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -122,22 +128,27 @@ public class Player implements Entity {
     }
 
     @Override
-    public void setHealth(int i) {
-        this.health = i;
+    public void setCollision(boolean collision) {
+        this.collision = collision;
     }
 
     @Override
-    public int getX() {
+    public void takeDamage(double i) {
+        health = health - i;
+    }
+
+    @Override
+    public int getPosX() {
         return x;
     }
 
     @Override
-    public int getY() {
+    public int getPosY() {
         return y;
     }
 
     @Override
-    public int getHealth() {
+    public double getHealth() {
         return this.health;
     }
 
@@ -168,7 +179,7 @@ public class Player implements Entity {
     }
 
     @Override
-    public int getDamage() {
+    public double attacks() {
         return this.damage;
     }
 
