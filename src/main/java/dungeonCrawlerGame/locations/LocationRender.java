@@ -1,14 +1,12 @@
-package dungeonCrawlerGame.ui;
+package dungeonCrawlerGame.locations;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.locations.DungeonMap;
-import dungeonCrawlerGame.locations.Location;
 
 import java.awt.*;
 
 public class LocationRender {
 
-    private static Cells [][] currentLocation;
+    private static Cells[][] currentLocation;
     static Cells cell;
 
     public static void getNewLocation() {

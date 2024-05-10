@@ -2,22 +2,22 @@ package dungeonCrawlerGame.gameWindow;
 
 import dungeonCrawlerGame.controller.Direction;
 import dungeonCrawlerGame.entities.EnemyProperties;
-import dungeonCrawlerGame.entities.Player;
+import dungeonCrawlerGame.entities.player.Player;
 import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.monster.Monsters;
-import dungeonCrawlerGame.gameManager.GameLogic;
+import dungeonCrawlerGame.gameManager.GameUpdate;
 import dungeonCrawlerGame.locations.DungeonMap;
 
-import dungeonCrawlerGame.ui.GameRender;
+import dungeonCrawlerGame.gameManager.GameRender;
 
 
-public class GameDisplay {
+public class GameInit {
 
     public static Monsters monsters;
     public static Player player;
     public static int currentLocationNum;
 
-    public GameDisplay(int width, int height) {
+    public GameInit(int width, int height) {
         GameFrame gameFrame = new GameFrame(width, height);
 
         DungeonMap.setDefaultLocation();
@@ -35,6 +35,6 @@ public class GameDisplay {
     }
 
     public static void updateGame() {
-        GameLogic.updateGame();
+        GameUpdate.updateGame();
     }
 }

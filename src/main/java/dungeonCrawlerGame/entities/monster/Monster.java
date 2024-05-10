@@ -1,12 +1,12 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.controller.CheckCell;
+import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.controller.Direction;
 import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.entities.Entity;
-import dungeonCrawlerGame.entities.Player;
-import dungeonCrawlerGame.gameWindow.GameDisplay;
+import dungeonCrawlerGame.entities.player.Player;
+import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Monster implements Entity {
 
-    Player player = GameDisplay.player;
+    Player player = GameInit.player;
 
     private int posX;
     private int posY;
@@ -29,11 +29,6 @@ public class Monster implements Entity {
 
     private int monsterSpeed;
     private EnemyProperties enemy;
-    private int startPosX;
-    private int startPosY;
-    private int endPosX;
-    private int endPosY;
-    private boolean goBack = false;
     private int turnCounter = 0;
 
     public Monster(int startX, int startY, int location, Direction direction, EnemyProperties enemy) {
@@ -52,8 +47,9 @@ public class Monster implements Entity {
         // Follow player if same location and player is nearby
 
         if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
+            turnCounter = 0;
             monsterSpeed = EnemyProperties.getHuntingSpeed(enemy);
-            CheckCell.checkCellCollision(this);
+            CollisionChecker.checkCellCollision(this);
 
             if (!collision)
                 if (player.getPosX() >= posX + Config.CELL_SIZE) {
@@ -78,7 +74,6 @@ public class Monster implements Entity {
     }
 
     private void moveRandom() {
-
         turnCounter ++;
         if (turnCounter == 20) {
             Random random = new Random();
@@ -99,7 +94,7 @@ public class Monster implements Entity {
             }
             turnCounter = 0;
         }
-        CheckCell.checkCellCollision(this);
+        CollisionChecker.checkCellCollision(this);
         if(!collision) {
             switch (direction) {
                 case RIGHT:
@@ -161,6 +156,11 @@ public class Monster implements Entity {
     }
 
     @Override
+    public void setLocationNumber(int locationNumber) {
+        this.locationNumber = locationNumber;
+    }
+
+    @Override
     public int getLocationNumber() {
         return this.locationNumber;
     }
@@ -187,8 +187,4 @@ public class Monster implements Entity {
         return this.damage;
     }
 
-    @Override
-    public boolean isDead() {
-        return this.dead;
-    }
 }

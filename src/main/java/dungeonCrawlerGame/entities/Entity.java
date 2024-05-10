@@ -13,9 +13,9 @@ public interface Entity {
     public Direction getDirection();
     public Image getImage();
     public double attacks();
-    public boolean isDead();
     public void moveEntity();
     public void takeDamage(double i);
     public int getSpeed();
     public void setCollision(boolean collision);
+    public void setLocationNumber(int locationNumber);
 }

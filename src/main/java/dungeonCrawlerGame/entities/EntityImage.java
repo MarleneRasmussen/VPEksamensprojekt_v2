@@ -1,4 +1,4 @@
-package dungeonCrawlerGame.ui;
+package dungeonCrawlerGame.entities;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

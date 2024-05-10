@@ -1,8 +1,6 @@
 package dungeonCrawlerGame.locations;
 
-import dungeonCrawlerGame.ui.Cells;
-
-import static dungeonCrawlerGame.ui.Cells.*;
+import static dungeonCrawlerGame.locations.Cells.*;
 
 public class Location {
 
@@ -13,6 +11,36 @@ public class Location {
             }
             case 2: {
                 return location2;
+            }
+            case 3: {
+                return location3;
+            }
+            case 4: {
+                return location4;
+            }
+            case 5: {
+                return location5;
+            }
+            case 6: {
+                return location6;
+            }
+            case 7: {
+                return location7;
+            }
+            case 8: {
+                return location8;
+            }
+            case 9: {
+                return location9;
+            }
+            case 10: {
+                return location10;
+            }
+            case 11: {
+                return location11;
+            }
+            case 12: {
+                return location12;
             }
         }
         return null;

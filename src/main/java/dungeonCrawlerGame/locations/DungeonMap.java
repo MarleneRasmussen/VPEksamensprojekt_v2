@@ -1,7 +1,7 @@
 package dungeonCrawlerGame.locations;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.entities.Player;
+import dungeonCrawlerGame.entities.player.Player;
 
 
 public class DungeonMap {

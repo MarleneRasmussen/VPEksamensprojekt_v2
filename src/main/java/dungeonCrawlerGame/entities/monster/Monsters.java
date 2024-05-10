@@ -1,7 +1,8 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.gameWindow.GameDisplay;
+import dungeonCrawlerGame.controller.KeyAction;
+import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Monsters {
 
-    private final List<Monster> monsters;
+    private static List<Monster> monsters;
 
     public Monsters()
     {
@@ -30,25 +31,41 @@ public class Monsters {
         }
     }
 
+    public void checkDead()
+    {
+        for (Monster monster : monsters)
+        {
+            if (monster.getHealth() <= 0)
+            {
+                //Location number 0 is the graveyard for monsters
+                monster.setLocationNumber(0);
+            }
+        }
+    }
+
     public void checkCollision()
     {
         for (Monster monster : monsters)
         {
             if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                if (monster.getPosX() < GameDisplay.player.getPosX() + Config.CELL_SIZE &&
-                        monster.getPosX() + Config.CELL_SIZE > GameDisplay.player.getPosX() &&
-                        monster.getPosY() < GameDisplay.player.getPosY() + Config.CELL_SIZE &&
-                        monster.getPosY() + Config.CELL_SIZE > GameDisplay.player.getPosY())
+                if (monster.getPosX() < GameInit.player.getPosX() + Config.CELL_SIZE &&
+                        monster.getPosX() + Config.CELL_SIZE > GameInit.player.getPosX() &&
+                        monster.getPosY() < GameInit.player.getPosY() + Config.CELL_SIZE &&
+                        monster.getPosY() + Config.CELL_SIZE > GameInit.player.getPosY())
                 {
-                    GameDisplay.player.takeDamage(monster.attacks());
-                    System.out.println("Player health: " + GameDisplay.player.getHealth());
+                    GameInit.player.takeDamage(monster.attacks());
+                    if (KeyAction.attack)
+                    {
+                        monster.takeDamage(GameInit.player.attacks());
+                    }
+                    System.out.println("Monster health: " + monster.getHealth());
                 }
             }
         }
     }
 
-    public List<Monster> getMonsters()
+    public static List<Monster> getMonsters()
     {
         return monsters;
     }

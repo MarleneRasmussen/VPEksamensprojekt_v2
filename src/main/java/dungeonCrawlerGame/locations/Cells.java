@@ -1,4 +1,4 @@
-package dungeonCrawlerGame.ui;
+package dungeonCrawlerGame.locations;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

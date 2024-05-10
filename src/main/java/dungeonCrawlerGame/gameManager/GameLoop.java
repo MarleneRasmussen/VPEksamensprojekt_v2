@@ -1,15 +1,15 @@
 package dungeonCrawlerGame.gameManager;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.gameWindow.GameDisplay;
+import dungeonCrawlerGame.gameWindow.GameInit;
 
 public class GameLoop implements Runnable{
 
-    private GameDisplay gameDisplay;
+    private GameInit game;
     private boolean running;
 
-    public GameLoop(GameDisplay gameDisplay){
-        this.gameDisplay = gameDisplay;
+    public GameLoop(GameInit game){
+        this.game = game;
     }
 
     @Override
@@ -18,8 +18,8 @@ public class GameLoop implements Runnable{
         double nextDraw = System.nanoTime() + Config.INTERVAL;
 
         while (running){
-            GameDisplay.updateGame();
-            GameDisplay.renderGame();
+            GameInit.updateGame();
+            GameInit.renderGame();
 
             try {
                 double remaining = nextDraw - System.nanoTime();
