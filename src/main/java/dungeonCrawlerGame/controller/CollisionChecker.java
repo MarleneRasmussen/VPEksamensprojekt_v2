@@ -2,14 +2,11 @@ package dungeonCrawlerGame.controller;
 
 import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.Entity;
-import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.player.Player;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Location;
 
 import dungeonCrawlerGame.locations.Cells;
-
-import java.util.List;
 
 public class CollisionChecker {
 
@@ -77,27 +74,22 @@ public class CollisionChecker {
         return currentLocation[playerBottomRow][playerColumn];
     }
 
-    public static int checkEntityCollision(Entity player, List<Monster> entity2) {
+    public static boolean checkEntityCollision(Entity player, Entity entity) {
 
         int entityLeft = player.getPosX() + Config.CELL_SIZE / 6;
         int entityRight = player.getPosX() + (Config.CELL_SIZE / 6) * 5;
         int entityTop = player.getPosY() + Config.CELL_SIZE / 3;
         int entityBottom = player.getPosY() + Config.CELL_SIZE;
 
-        for (int i = 0; i < entity2.size(); i++) {
-            int entity2Left = entity2.get(i).getPosX() + Config.CELL_SIZE / 6;
-            int entity2Right = entity2.get(i).getPosX() + (Config.CELL_SIZE / 6) * 5;
-            int entity2Top = entity2.get(i).getPosY() + Config.CELL_SIZE / 3;
-            int entity2Bottom = entity2.get(i).getPosY() + Config.CELL_SIZE;
+        int entity2Left = entity.getPosX() + Config.CELL_SIZE / 6;
+        int entity2Right = entity.getPosX() + (Config.CELL_SIZE / 6) * 5;
+        int entity2Top = entity.getPosY() + Config.CELL_SIZE / 3;
+        int entity2Bottom = entity.getPosY() + Config.CELL_SIZE;
 
-            if (entityLeft < entity2Right &&
-                    entityRight > entity2Left &&
-                    entityTop < entity2Bottom &&
-                    entityBottom > entity2Top) {
-                return i;
-            }
-        }
-        return -1;
+        return entityLeft < entity2Right &&
+                entityRight > entity2Left &&
+                entityTop < entity2Bottom &&
+                entityBottom > entity2Top;
     }
 }
 

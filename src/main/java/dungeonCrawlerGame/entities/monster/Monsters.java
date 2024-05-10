@@ -1,6 +1,7 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
+import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
@@ -49,12 +50,9 @@ public class Monsters {
         {
             if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                if (monster.getPosX() < GameInit.player.getPosX() + Config.CELL_SIZE &&
-                        monster.getPosX() + Config.CELL_SIZE > GameInit.player.getPosX() &&
-                        monster.getPosY() < GameInit.player.getPosY() + Config.CELL_SIZE &&
-                        monster.getPosY() + Config.CELL_SIZE > GameInit.player.getPosY())
-                {
+                if (CollisionChecker.checkEntityCollision(GameInit.player, monster)){
                     GameInit.player.takeDamage(monster.attacks());
+
                     if (KeyAction.attack)
                     {
                         monster.takeDamage(GameInit.player.attacks());

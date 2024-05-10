@@ -7,11 +7,13 @@ import dungeonCrawlerGame.locations.LocationRender;
 public class GameUpdate {
 
         public static void updateGame(){
-                GameInit.monsters.updateMonsters();
-                GameInit.monsters.checkCollision();
-                GameInit.player.moveEntity();
-                GameInit.currentLocationNum = DungeonMap.getCurrentWorldLocation();
-                GameInit.monsters.checkDead();
-                LocationRender.getNewLocation();
+                if (GameInit.gameState == GameInit.gameRunning){
+                        GameInit.monsters.checkCollision();
+                        GameInit.monsters.updateMonsters();
+                        GameInit.player.moveEntity();
+                        GameInit.currentLocationNum = DungeonMap.getCurrentWorldLocation();
+                        GameInit.monsters.checkDead();
+                        LocationRender.getNewLocation();
+                }
         }
 }

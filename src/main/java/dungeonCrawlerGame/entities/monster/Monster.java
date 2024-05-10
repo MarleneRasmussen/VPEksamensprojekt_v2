@@ -26,6 +26,7 @@ public class Monster implements Entity {
     private double damage;
     private boolean dead;
     private boolean collision;
+    private boolean entityCollision;
 
     private int monsterSpeed;
     private EnemyProperties enemy;
@@ -44,32 +45,55 @@ public class Monster implements Entity {
     @Override
     public void moveEntity() {
         collision = false;
-        // Follow player if same location and player is nearby
+        entityCollision = false;
 
-        if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
-            turnCounter = 0;
-            monsterSpeed = EnemyProperties.getHuntingSpeed(enemy);
+        //Check collision with cells and player if inside current location
+        if (posX >= Config.CELL_SIZE && posY >= Config.CELL_SIZE && posX + Config.CELL_SIZE <= Config.LOCATION_WIDTH - Config.CELL_SIZE && posY + Config.CELL_SIZE <= Config.LOCATION_HEIGHT - Config.CELL_SIZE) {
             CollisionChecker.checkCellCollision(this);
 
-            if (!collision)
-                if (player.getPosX() >= posX + Config.CELL_SIZE) {
-                    direction = Direction.RIGHT;
-                    posX += monsterSpeed;
-                } else if (player.getPosX() <= posX - Config.CELL_SIZE) {
-                    direction = Direction.LEFT;
-                    posX -= monsterSpeed;
+            // Follow player if same location and player is nearby
+            if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
+                turnCounter = 0;
+                monsterSpeed = EnemyProperties.getHuntingSpeed(enemy);
+
+                //Check collision with entities
+                entityCollision = CollisionChecker.checkEntityCollision(player, this);
+                if (!collision && !entityCollision) {
+                    if (player.getPosX() >= posX) {
+                        direction = Direction.RIGHT;
+                        posX += monsterSpeed;
+                    } else if (player.getPosX() <= posX) {
+                        direction = Direction.LEFT;
+                        posX -= monsterSpeed;
+                    }
+
+                    if (player.getPosY() >= posY) {
+                        direction = Direction.DOWN;
+                        posY += monsterSpeed;
+                    } else if (player.getPosY() <= posY) {
+                        direction = Direction.UP;
+                        posY -= monsterSpeed;
+                    }
                 }
 
-            if (player.getPosY() >= posY + Config.CELL_SIZE) {
+            } else {
+                monsterSpeed = EnemyProperties.getSpeed(enemy);
+                moveRandom();
+            }
+        } else {
+            if (posX <= Config.CELL_SIZE) {
+                direction = Direction.RIGHT;
+                posX += monsterSpeed;
+            } else if (posX + Config.CELL_SIZE >= Config.LOCATION_WIDTH - Config.CELL_SIZE) {
+                direction = Direction.LEFT;
+                posX -= monsterSpeed;
+            } else if (posY <= Config.CELL_SIZE) {
                 direction = Direction.DOWN;
                 posY += monsterSpeed;
-            } else if (player.getPosY() <= posY - Config.CELL_SIZE) {
+            } else {
                 direction = Direction.UP;
                 posY -= monsterSpeed;
             }
-        } else {
-            monsterSpeed = EnemyProperties.getSpeed(enemy);
-            moveRandom();
         }
     }
 

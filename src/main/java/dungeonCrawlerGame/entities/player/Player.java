@@ -10,7 +10,6 @@ import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Cells;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Player implements Entity {
 
@@ -63,7 +62,6 @@ public class Player implements Entity {
             else if (KeyAction.attack) {
                 playerAttacks = true;}
 
-
                     collision = false;
                     //Check collision only inside current location if moving
                     if (x >= 5 && x + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH
@@ -94,9 +92,8 @@ public class Player implements Entity {
                                     x += playerSpeed;
                                 }
                         }
-
                         imageCounter++;
-                        if (imageCounter > 12) {
+                        if (imageCounter > 10) {
                             if (imageNum == 1) {
                                 imageNum = 2;
                             } else if (imageNum == 2) {

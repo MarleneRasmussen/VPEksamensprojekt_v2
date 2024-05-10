@@ -1,5 +1,7 @@
 package dungeonCrawlerGame.controller;
 
+import dungeonCrawlerGame.gameWindow.GameInit;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -27,7 +29,11 @@ public class KeyAction implements KeyListener {
             right = true;
         }
         if (key == KeyEvent.VK_ESCAPE) {
-            //TODO: add pause
+            if (GameInit.gameState == GameInit.gameRunning){
+                GameInit.gameState = GameInit.gamePaused;
+            } else if (GameInit.gameState == GameInit.gamePaused){
+                GameInit.gameState = GameInit.gameRunning;
+            }
         }
         if (key == KeyEvent.VK_SPACE) {
             attack = true;
