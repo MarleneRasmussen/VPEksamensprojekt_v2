@@ -28,6 +28,7 @@ public class Player implements Entity {
     private int imageCounter = 0;
     private int imageNum = 1;
     private int stamina;
+    private int staminaCounter = 0;
 
     public Player() {
         setDefaultSettings();
@@ -106,10 +107,22 @@ public class Player implements Entity {
         }
     }
 
+    public void increaseStamina() {
+        if (stamina < Config.DEFAULT_PLAYER_STAMINA) {
+            staminaCounter++;
+            if(staminaCounter > 50) {
+                staminaCounter = 0;
+                stamina++;
+            }
+        }
+    }
 
     @Override
     public Image getImage() {
 
+        if(stamina <= 0) {
+            playerAttacks = false;
+        }
         switch (direction) {
             case UP:
                 if (!playerAttacks) {
@@ -166,7 +179,7 @@ public class Player implements Entity {
     }
 
     public void setStamina(int stamina) {
-        this.stamina = this.stamina - stamina;
+        this.stamina = this.stamina + stamina;
     }
 
     public void setX(int x) {

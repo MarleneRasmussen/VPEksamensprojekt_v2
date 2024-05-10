@@ -14,6 +14,7 @@ public class GameUpdate {
                         GameInit.currentLocationNum = DungeonMap.getCurrentWorldLocation();
                         GameInit.monsters.checkDead();
                         LocationRender.getNewLocation();
+                        GameInit.player.increaseStamina();
                 }
         }
 }

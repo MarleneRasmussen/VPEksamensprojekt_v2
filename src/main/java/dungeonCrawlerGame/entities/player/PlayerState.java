@@ -35,8 +35,6 @@ public class PlayerState {
         int barWidth = 200;
         int playerStaminaBar = (int) ((playerStamina / playerMaxStamina) * barWidth);
 
-        System.out.println(playerStamina);
-
         g2d.setColor(new Color(0,0,0,150));
         g2d.fillRoundRect(500, 10,330, 50, 10, 10);
 

@@ -64,7 +64,7 @@ public class Monsters {
                     if (KeyAction.attack)
                     {
                         staminaCounter++;
-                        if (staminaCounter == 10 && GameInit.player.getStamina() > 0)
+                        if (staminaCounter == 5 && GameInit.player.getStamina() > 0)
                         {
                             staminaCounter = 0;
                             GameInit.player.setStamina(Config.STAMINA_REDUCE);

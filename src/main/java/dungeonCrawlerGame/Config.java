@@ -15,5 +15,5 @@ public class Config {
     public static final double DEFAULT_PLAYER_HEALTH = 100;
     public static final double DEFAULT_PLAYER_DAMAGE = 20.0;
     public static final int DEFAULT_PLAYER_STAMINA = 100;
-    public static final int STAMINA_REDUCE = 5;
+    public static final int STAMINA_REDUCE = -5;
 }
