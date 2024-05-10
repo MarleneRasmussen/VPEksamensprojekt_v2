@@ -11,12 +11,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class MenuFrame extends JFrame implements ActionListener {
+public class StartMenu extends JFrame implements ActionListener {
 
     private JButton startButton;
     private JButton exitButton;
 
-    public MenuFrame() {
+    public StartMenu() {
 
         setTitle("Dungeon Crawler");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

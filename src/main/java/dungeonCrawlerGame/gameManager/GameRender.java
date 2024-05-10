@@ -1,6 +1,7 @@
 package dungeonCrawlerGame.gameManager;
 
 import dungeonCrawlerGame.Config;
+
 import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.LocationRender;
 
@@ -27,10 +28,15 @@ public class GameRender {
 
         //Draw player
         g2d.drawImage(GameInit.player.getImage(),GameInit.player.getPosX(), GameInit.player.getPosY() , Config.CELL_SIZE, Config.CELL_SIZE, null);
-        //g2d.drawImage(GameInit.player.getImage(), GameInit.player.getPosX(), GameInit.player.getPosY(), null);
 
         //Draw monsters in current location
         GameInit.monsters.drawMonsters(g2d);
+
+        //Draw player health bar
+        GameInit.playerState.renderPlayerHP(g2d);
+
+        //Draw player attack bar
+        GameInit.playerState.renderPlayerStamina(g2d);
 
         graphics.dispose();
         bufferStrategy.show();

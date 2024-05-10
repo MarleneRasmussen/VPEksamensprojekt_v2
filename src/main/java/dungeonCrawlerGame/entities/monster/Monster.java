@@ -27,6 +27,7 @@ public class Monster implements Entity {
     private boolean dead;
     private boolean collision;
     private boolean entityCollision;
+    private int maxHealth;
 
     private int monsterSpeed;
     private EnemyProperties enemy;
@@ -37,9 +38,14 @@ public class Monster implements Entity {
         this.posY = startY;
         this.locationNumber = location;
         this.direction = direction;
-        this.health = EnemyProperties.getHealth(enemy);
+        this.maxHealth = EnemyProperties.getHealth(enemy);
         this.damage = EnemyProperties.getDamage(enemy);
         this.enemy = enemy;
+        this.health = maxHealth;
+    }
+
+    public EnemyProperties getEnemy() {
+        return enemy;
     }
 
     @Override
@@ -183,6 +189,7 @@ public class Monster implements Entity {
     public void setLocationNumber(int locationNumber) {
         this.locationNumber = locationNumber;
     }
+
 
     @Override
     public int getLocationNumber() {

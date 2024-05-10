@@ -1,9 +1,9 @@
 package dungeonCrawlerGame.entities;
 
 public enum EnemyProperties {
-    GHOST(100, 0.01, 1, 3),
-    BAT(50, 0.02, 1, 4),
-    SKELETON(150, 0.03, 1, 2);
+    GHOST(100, 10, 1, 3),
+    BAT(50, 10, 1, 4),
+    SKELETON(150, 10, 1, 2);
 
     private final int health;
     private final double damage;

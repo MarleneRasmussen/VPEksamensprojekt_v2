@@ -24,9 +24,10 @@ public class Player implements Entity {
     private boolean playerAttacks = false;
 
     private int playerSpeed;
-    public boolean collision;
+    public boolean collision = false;
     private int imageCounter = 0;
     private int imageNum = 1;
+    private int stamina;
 
     public Player() {
         setDefaultSettings();
@@ -36,11 +37,10 @@ public class Player implements Entity {
         x = Config.LOCATION_WIDTH / 2;
         y = Config.LOCATION_HEIGHT / 2;
         playerSpeed = Config.DEFAULT_PLAYER_SPEED;
-        collision = false;
         health = Config.DEFAULT_PLAYER_HEALTH;
+        stamina = Config.DEFAULT_PLAYER_STAMINA;
         this.damage = Config.DEFAULT_PLAYER_DAMAGE;
         direction = Direction.DOWN;
-
     }
 
     public void setPlayerSpeed(Cells cell) {
@@ -159,6 +159,14 @@ public class Player implements Entity {
                 break;
         }
         return image;
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(int stamina) {
+        this.stamina = this.stamina - stamina;
     }
 
     public void setX(int x) {
