@@ -35,6 +35,9 @@ public class GameRender {
         //Draw player health bar
         GameInit.playerState.renderPlayerHP(g2d);
 
+        //Draw items in current location
+        GameInit.items.drawItems(g2d);
+
         //Draw player attack bar
         GameInit.playerState.renderPlayerStamina(g2d);
 

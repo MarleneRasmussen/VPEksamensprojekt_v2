@@ -19,15 +19,16 @@ public class Monster implements Entity {
 
     private int posX;
     private int posY;
-    private double health;
+    private int health;
     private int locationNumber;
     public Direction direction;
     private Image image;
-    private double damage;
+    private final int damage;
     private boolean dead;
     private boolean collision;
-    private boolean entityCollision;
+    public boolean playerCollision;
     private int maxHealth;
+    public Rectangle entityBounds = new Rectangle(posX, posY, Config.CELL_SIZE, Config.CELL_SIZE);
 
     private int monsterSpeed;
     private EnemyProperties enemy;
@@ -51,20 +52,18 @@ public class Monster implements Entity {
     @Override
     public void moveEntity() {
         collision = false;
-        entityCollision = false;
+        playerCollision = false;
 
-        //Check collision with cells and player if inside current location
+        //Cant move out of the location
         if (posX >= Config.CELL_SIZE && posY >= Config.CELL_SIZE && posX + Config.CELL_SIZE <= Config.LOCATION_WIDTH - Config.CELL_SIZE && posY + Config.CELL_SIZE <= Config.LOCATION_HEIGHT - Config.CELL_SIZE) {
-            CollisionChecker.checkCellCollision(this);
-
+            checkCollision();
+            attacks();
             // Follow player if same location and player is nearby
             if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
                 turnCounter = 0;
                 monsterSpeed = EnemyProperties.getHuntingSpeed(enemy);
 
-                //Check collision with entities
-                entityCollision = CollisionChecker.checkEntityCollision(player, this);
-                if (!collision && !entityCollision) {
+                if (!collision && !playerCollision) {
                     if (player.getPosX() >= posX) {
                         direction = Direction.RIGHT;
                         posX += monsterSpeed;
@@ -124,7 +123,7 @@ public class Monster implements Entity {
             }
             turnCounter = 0;
         }
-        CollisionChecker.checkCellCollision(this);
+        //CollisionChecker.checkCellCollision(this);
         if(!collision) {
             switch (direction) {
                 case RIGHT:
@@ -154,6 +153,21 @@ public class Monster implements Entity {
             return false;
         }
     }
+    public void checkCollision() {
+
+        CollisionChecker.checkCellCollision(this);
+        CollisionChecker.checkItemCollision(this);
+        CollisionChecker.checkPlayerCollision(this, player);
+    }
+
+    public void setPlayerMonsterCollision(boolean playerCollision) {
+        this.playerCollision = playerCollision;
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return entityBounds;
+    }
 
     @Override
     public int getPosX() {
@@ -166,12 +180,12 @@ public class Monster implements Entity {
     }
 
     @Override
-    public double getHealth() {
+    public int getHealth() {
        return this.health;
     }
 
     @Override
-    public void takeDamage(double i) {
+    public void takeDamage(int i) {
         health = health - i;
     }
 
@@ -189,7 +203,6 @@ public class Monster implements Entity {
     public void setLocationNumber(int locationNumber) {
         this.locationNumber = locationNumber;
     }
-
 
     @Override
     public int getLocationNumber() {
@@ -214,8 +227,7 @@ public class Monster implements Entity {
     }
 
     @Override
-    public double attacks() {
-        return this.damage;
+    public int attacks() {
+        return damage;
     }
-
 }

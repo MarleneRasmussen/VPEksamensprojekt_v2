@@ -8,14 +8,16 @@ public interface Entity {
 
     public int getPosX();
     public int getPosY();
-    public double getHealth();
+    public int getHealth();
     public int getLocationNumber();
     public Direction getDirection();
     public Image getImage();
-    public double attacks();
+    public int attacks();
     public void moveEntity();
-    public void takeDamage(double i);
+    public void takeDamage(int i);
     public int getSpeed();
     public void setCollision(boolean collision);
     public void setLocationNumber(int locationNumber);
+    public void setPlayerMonsterCollision(boolean playerCollision);
+    public Rectangle getBounds();
 }

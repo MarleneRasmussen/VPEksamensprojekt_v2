@@ -15,20 +15,22 @@ public class Player implements Entity {
 
     private static int x;
     private static int y;
-    private double health;
+    private int health;
     private int locationNumber;
     public Direction direction;
     private Image image;
-    private double damage;
+    private int damage;
     private boolean dead;
     private boolean playerAttacks = false;
 
     private int playerSpeed;
     public boolean collision = false;
+    public boolean monsterCollision;
     private int imageCounter = 0;
     private int imageNum = 1;
     private int stamina;
     private int staminaCounter = 0;
+    public Rectangle entityBounds = new Rectangle(x, y, Config.CELL_SIZE, Config.CELL_SIZE);
 
     public Player() {
         setDefaultSettings();
@@ -64,14 +66,16 @@ public class Player implements Entity {
                 playerAttacks = true;}
 
                     collision = false;
+                    monsterCollision = false;
                     //Check collision only inside current location if moving
                     if (x >= 5 && x + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH
                             && y + Config.CELL_SIZE + 5 <= Config.LOCATION_HEIGHT && y >= 5) {
                         CollisionChecker.checkCellCollision(this);
                         setPlayerSpeed(CollisionChecker.getCurrentCell(this));
+                        CollisionChecker.checkItemCollision(this);
                     }
 
-                    if (direction != null && !collision) {
+                    if (direction != null && !collision && !monsterCollision){
                         switch (direction) {
                             case UP:
                                 if (x >= 5 && x + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH) {
@@ -174,14 +178,6 @@ public class Player implements Entity {
         return image;
     }
 
-    public int getStamina() {
-        return stamina;
-    }
-
-    public void setStamina(int stamina) {
-        this.stamina = this.stamina + stamina;
-    }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -206,7 +202,17 @@ public class Player implements Entity {
     }
 
     @Override
-    public void takeDamage(double i) {
+    public void setPlayerMonsterCollision(boolean playerMonsterCollision) {
+        this.monsterCollision = playerMonsterCollision;
+    }
+
+    @Override
+    public Rectangle getBounds() {
+        return entityBounds;
+    }
+
+    @Override
+    public void takeDamage(int i) {
         health = health - i;
     }
 
@@ -221,7 +227,7 @@ public class Player implements Entity {
     }
 
     @Override
-    public double getHealth() {
+    public int getHealth() {
         return this.health;
     }
 
@@ -236,11 +242,15 @@ public class Player implements Entity {
     }
 
     @Override
-    public double attacks() {
-        if (playerAttacks) {
-            return this.damage;
-        } else {
-            return 0.0;
-        }
+    public int attacks() {
+        return this.damage;
+    }
+
+    public int getStamina() {
+        return stamina;
+    }
+
+    public void setStamina(int stamina) {
+        this.stamina = this.stamina + stamina;
     }
 }

@@ -3,6 +3,8 @@ package dungeonCrawlerGame.controller;
 import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.Entity;
 import dungeonCrawlerGame.entities.player.Player;
+import dungeonCrawlerGame.items.ItemObject;
+import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Location;
 
@@ -31,7 +33,6 @@ public class CollisionChecker {
                 entityTopRow = (entityTop - entity.getSpeed()) / Config.CELL_SIZE;
                 cell1 = currentLocation[entityTopRow][entityLeftColumn];
                 cell2 = currentLocation[entityTopRow][entityRightColumn];
-
                 if (cell1.isSolid() || cell2.isSolid())
                     entity.setCollision(true);
 
@@ -74,22 +75,97 @@ public class CollisionChecker {
         return currentLocation[playerBottomRow][playerColumn];
     }
 
-    public static boolean checkEntityCollision(Entity player, Entity entity) {
+    public static void checkPlayerCollision(Entity entity, Player player) {
 
-        int entityLeft = player.getPosX() + Config.CELL_SIZE / 6;
-        int entityRight = player.getPosX() + (Config.CELL_SIZE / 6) * 5;
-        int entityTop = player.getPosY() + Config.CELL_SIZE / 3;
-        int entityBottom = player.getPosY() + Config.CELL_SIZE;
+        entity.getBounds().x = entity.getPosX();
+        entity.getBounds().y = entity.getPosY();
 
-        int entity2Left = entity.getPosX() + Config.CELL_SIZE / 6;
-        int entity2Right = entity.getPosX() + (Config.CELL_SIZE / 6) * 5;
-        int entity2Top = entity.getPosY() + Config.CELL_SIZE / 3;
-        int entity2Bottom = entity.getPosY() + Config.CELL_SIZE;
+        player.getBounds().x = player.getPosX();
+        player.getBounds().y = player.getPosY();
 
-        return entityLeft < entity2Right &&
-                entityRight > entity2Left &&
-                entityTop < entity2Bottom &&
-                entityBottom > entity2Top;
+        switch (entity.getDirection()) {
+            case UP:
+                entity.getBounds().y -= entity.getSpeed();
+                if (entity.getBounds().intersects(player.getBounds())) {
+                    entity.setCollision(true);
+                    entity.setPlayerMonsterCollision(true);
+                    player.monsterCollision = true;
+                }
+                break;
+            case DOWN:
+                entity.getBounds().y += entity.getSpeed();
+                if (entity.getBounds().intersects(player.getBounds())) {
+                    entity.setCollision(true);
+                    entity.setPlayerMonsterCollision(true);
+                    player.monsterCollision = true;
+                }
+                break;
+            case LEFT:
+                entity.getBounds().x -= entity.getSpeed();
+                if (entity.getBounds().intersects(player.getBounds())) {
+                    entity.setCollision(true);
+                    entity.setPlayerMonsterCollision(true);
+                    player.monsterCollision = true;
+                }
+                break;
+            case RIGHT:
+                entity.getBounds().x += entity.getSpeed();
+                if (entity.getBounds().intersects(player.getBounds())) {
+                    entity.setCollision(true);
+                    entity.setPlayerMonsterCollision(true);
+                    player.monsterCollision = true;
+                }
+                break;
+        }
+        entity.getBounds().x = entity.getPosX();
+        entity.getBounds().y = entity.getPosY();
+    }
+
+
+
+    public static void checkItemCollision(Entity entity) {
+
+        for (int i = 0; i < Items.getItem().size(); i++) {
+            if (Items.getItem().get(i).getLocationNumber() == DungeonMap.getCurrentWorldLocation()) {
+                ItemObject item = Items.getItem().get(i);
+                item.itemBounds.x = item.getPosX();
+                item.itemBounds.y = item.getPosY();
+
+                entity.getBounds().x = entity.getPosX();
+                entity.getBounds().y = entity.getPosY();
+
+                switch (entity.getDirection()) {
+                    case UP:
+                        entity.getBounds().y -= entity.getSpeed();
+                        if (entity.getBounds().intersects(item.itemBounds)) {
+                            entity.setCollision(true);
+                            Items.getItem().get(i).setInRange(true);
+                        }
+                        break;
+                    case DOWN:
+                        entity.getBounds().y += entity.getSpeed();
+                        if (entity.getBounds().intersects(item.itemBounds)) {
+                            entity.setCollision(true);
+                        }
+                        break;
+                    case LEFT:
+                        entity.getBounds().x -= entity.getSpeed();
+                        if (entity.getBounds().intersects(item.itemBounds)) {
+                            entity.setCollision(true);
+                        }
+                        break;
+                    case RIGHT:
+                        entity.getBounds().x += entity.getSpeed();
+                        if (entity.getBounds().intersects(item.itemBounds)) {
+                            entity.setCollision(true);
+                        }
+                        break;
+                }
+                entity.getBounds().x = entity.getPosX();
+                entity.getBounds().y = entity.getPosY();
+            }
+
+        }
     }
 }
 

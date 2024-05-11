@@ -8,13 +8,14 @@ public class GameUpdate {
 
         public static void updateGame(){
                 if (GameInit.gameState == GameInit.gameRunning){
-                        GameInit.monsters.checkCollision();
                         GameInit.monsters.updateMonsters();
                         GameInit.player.moveEntity();
                         GameInit.currentLocationNum = DungeonMap.getCurrentWorldLocation();
                         GameInit.monsters.checkDead();
                         LocationRender.getNewLocation();
                         GameInit.player.increaseStamina();
+                        GameInit.monsters.checkForDamage();
+                        GameInit.monsters.checkDead();
                 }
         }
 }

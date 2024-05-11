@@ -11,6 +11,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dungeonCrawlerGame.gameWindow.GameInit.player;
+
 public class Monsters {
 
     private static List<Monster> monsters;
@@ -47,13 +49,12 @@ public class Monsters {
         }
     }
 
-    public void checkCollision()
-    {
+    public void checkForDamage(){
         for (Monster monster : monsters)
         {
             if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                if (CollisionChecker.checkEntityCollision(GameInit.player, monster)){
+                if (monster.playerCollision){
                     damageCounter++;
                     if (damageCounter == 30)
                     {
@@ -64,22 +65,23 @@ public class Monsters {
                     if (KeyAction.attack)
                     {
                         staminaCounter++;
-                        if (staminaCounter == 5 && GameInit.player.getStamina() > 0)
+                        if (staminaCounter == 10 && GameInit.player.getStamina() > 0)
                         {
                             staminaCounter = 0;
                             GameInit.player.setStamina(Config.STAMINA_REDUCE);
                             monster.takeDamage(GameInit.player.attacks());
                         }
                     }
-                    //System.out.println("Monster health: " + monster.getHealth());
+
                 }
             }
         }
+
     }
 
     public static List<Monster> getMonsters()
     {
-        return monsters;
+            return monsters;
     }
 
     public void drawMonsters(Graphics2D g2d)
@@ -90,12 +92,15 @@ public class Monsters {
             {
                 g2d.drawImage(monster.getImage(), monster.getPosX(), monster.getPosY(), null);
 
-                int healthBarWidth = (int) (monster.getHealth() / EnemyProperties.getHealth(monster.getEnemy()) * Config.CELL_SIZE);
+                double monsterHealth = monster.getHealth();
+                double monsterMaxHealth = EnemyProperties.getHealth(monster.getEnemy());
+                int monsterHealthBar = (int) ((monsterHealth / monsterMaxHealth) * Config.CELL_SIZE);
+
                 g2d.setColor(new Color(50,0,0));
                 g2d.fillRoundRect( monster.getPosX()-3, monster.getPosY() - 23, Config.CELL_SIZE+6, 21, 10, 10);
 
                 g2d.setColor(new Color(255,0,60));
-                g2d.fillRoundRect( monster.getPosX(), monster.getPosY() - 20, healthBarWidth, 15, 10, 10);
+                g2d.fillRoundRect( monster.getPosX(), monster.getPosY() - 20, monsterHealthBar, 15, 10, 10);
             }
         }
     }

@@ -6,11 +6,11 @@ public enum EnemyProperties {
     SKELETON(150, 10, 1, 2);
 
     private final int health;
-    private final double damage;
+    private final int damage;
     private final int speed;
     private final int huntingSpeed;
 
-    EnemyProperties(int health, double damage, int speed, int huntingSpeed) {
+    EnemyProperties(int health, int damage, int speed, int huntingSpeed) {
         this.health = health;
         this.damage = damage;
         this.speed = speed;
@@ -21,7 +21,7 @@ public enum EnemyProperties {
         return enemy.health;
     }
 
-    public static double getDamage(EnemyProperties enemy) {
+    public static int getDamage(EnemyProperties enemy) {
         return enemy.damage;
     }
 
