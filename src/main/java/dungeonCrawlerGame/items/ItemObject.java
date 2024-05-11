@@ -1,6 +1,7 @@
 package dungeonCrawlerGame.items;
 
 import dungeonCrawlerGame.Config;
+import dungeonCrawlerGame.entities.player.PlayerState;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,8 +36,6 @@ public class ItemObject implements Item{
                 break;
             case POTION:
                 break;
-            case MANA:
-                break;
         }
     }
 
@@ -46,7 +45,8 @@ public class ItemObject implements Item{
 
     @Override
     public void pickUp() {
-
+        PlayerState.updateInventory(this);
+        pickedUp = true;
     }
 
     @Override
@@ -60,9 +60,6 @@ public class ItemObject implements Item{
                 break;
             case POTION:
                 image = ItemProperties.POTION.getImage();
-                break;
-            case MANA:
-                image = ItemProperties.MANA.getImage();
                 break;
         }
         return image;
@@ -100,7 +97,7 @@ public class ItemObject implements Item{
 
     @Override
     public void setLocationNumber(int locationNumber) {
-
+        this.locationNumber = locationNumber;
     }
 
     @Override

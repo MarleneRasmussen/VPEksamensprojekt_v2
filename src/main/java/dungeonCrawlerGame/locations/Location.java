@@ -49,26 +49,26 @@ public class Location {
     private static Cells[][] location1 = {
             {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, TI, TI, TI, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, TI, TI, TI, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, TI, TI, TI, GR, GR},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, WA, WA, WA, WA, WA, WA, WA, GR, GR, WA, WA, WA, WA, WA, WA, WA, WA}};
+            {WA, GR, TI, TI, TI, TI, TI, TI, TI, TI, GR, GR, GR, GR, GR, GR, GR, WA},
+            {WA, GR, TI, TI, TI, TI, TI, TI, TI, TI, GR, GR, GR, GR, GR, GR, GR, WA},
+            {WA, GR, GR, GR, GR, GR, GR, GR, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI},
+            {WA, GR, GR, GR, GR, GR, GR, GR, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI},
+            {WA, GR, GR, GR, GR, GR, GR, GR, TI, TI, GR, GR, GR, GR, GR, GR, GR, WA},
+            {WA, GR, GR, GR, GR, GR, GR, GR, TI, TI, GR, GR, GR, GR, GR, GR, GR, WA},
+            {WA, GR, GR, GR, GR, GR, GR, GR, TI, TI, GR, GR, GR, GR, GR, GR, GR, WA},
+            {WA, WA, WA, WA, WA, WA, WA, WA, TI, TI, WA, WA, WA, WA, WA, WA, WA, WA}};
 
     private static Cells[][] location2 = {
-            {WA, WA, WA, WA, WA, WA, WA, WA, GR, GR, WA, WA, WA, WA, WA, WA, WA, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA}};
+            {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
+            {WA, SA, SA, SA, SA, SA, WA, LA, LA, LA, WA, SA, SA, SA, SA, SA, SA, WA},
+            {WA, SA, SA, SA, SA, SA, WA, LA, LA, LA, WA, SA, SA, SA, SA, SA, SA, WA},
+            {WA, ST, ST, ST, ST, ST, WA, WA, WA, WA, WA, SA, SA, SA, SA, SA, SA, WA},
+            {TI, TI, TI, TI, TI, TI, TI, WA, WA, WA, ST, ST, ST, ST, ST, ST, ST, WA},
+            {TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, WA},
+            {WA, WA, WA, SB, SB, BL, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, TI, WA},
+            {BS, BS, WA, SA, SA, SL, TI, TI, TI, BR, SB, WA, WA, WA, WA, WA, WA, WA},
+            {BS, BS, WA, WA, SA, SL, TI, TI, TI, SR, SA, WA, BS, BS, BS, BS, BS, BS},
+            {BS, BS, BS, WA, WA, WA, TI, TI, WA, WA, WA, WA, BS, BS, BS, BS, BS, BS}};
 
     private static Cells[][] location3 = {
             {WA, WA, WA, WA, WA, WA, WA, WA, GR, GR, WA, WA, WA, WA, WA, WA, WA, WA},
@@ -99,15 +99,15 @@ public class Location {
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
-            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
+            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, TI},
+            {GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, TI},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA}};
 
     private static Cells[][] location6 = {
-            {WA, WA, WA, WA, WA, WA, WA, WA, GR, GR, WA, WA, WA, WA, WA, WA, WA, WA},
+            {WA, WA, WA, WA, WA, WA, TI, TI, WA, WA, WA, WA, WA, WA, WA, WA, WA, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},
             {WA, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, GR, WA},

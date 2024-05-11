@@ -5,10 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public enum ItemProperties {
-    COIN("/Cells/BlackSpace.png", false),
-    KEY("/Cells/BlackSpace.png", false),
-    POTION("/Cells/BlackSpace.png", false),
-    MANA("/Cells/BlackSpace.png", false);
+    COIN("/Items/Coin.png", false),
+    KEY("/Items/Key.png", false),
+    POTION("/Items/Position.png", false),
+    DOOR("/Cells/BlackSpace.png", true);
 
     private String path;
     private boolean isSolid;

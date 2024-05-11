@@ -4,6 +4,7 @@ import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.Entity;
 import dungeonCrawlerGame.entities.player.Player;
 import dungeonCrawlerGame.items.ItemObject;
+import dungeonCrawlerGame.items.ItemProperties;
 import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Location;
@@ -138,26 +139,45 @@ public class CollisionChecker {
                     case UP:
                         entity.getBounds().y -= entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            entity.setCollision(true);
-                            Items.getItem().get(i).setInRange(true);
+                            if(item.getItemProperties().isSolid()){
+                                Items.getItem().get(i).setInRange(true);
+                                entity.setCollision(true);
+                            }else {
+                                item.pickUp();
+                            }
                         }
                         break;
                     case DOWN:
                         entity.getBounds().y += entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            entity.setCollision(true);
+                            if(item.getItemProperties().isSolid()){
+                                Items.getItem().get(i).setInRange(true);
+                                entity.setCollision(true);
+                            }else {
+                                item.pickUp();
+                            }
                         }
                         break;
                     case LEFT:
                         entity.getBounds().x -= entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            entity.setCollision(true);
+                            if(item.getItemProperties().isSolid()){
+                                Items.getItem().get(i).setInRange(true);
+                                entity.setCollision(true);
+                            }else {
+                                item.pickUp();
+                            }
                         }
                         break;
                     case RIGHT:
                         entity.getBounds().x += entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            entity.setCollision(true);
+                            if(item.getItemProperties().isSolid()){
+                                Items.getItem().get(i).setInRange(true);
+                                entity.setCollision(true);
+                            }else {
+                                item.pickUp();
+                            }
                         }
                         break;
                 }

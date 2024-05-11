@@ -41,8 +41,8 @@ public class GameInit {
         items.addItem(new ItemObject(500,500, 1, ItemProperties.COIN));
 
         monsters = new Monsters();
-        monsters.addMonster(new Monster( 110, 110, 1, Direction.DOWN, EnemyProperties.SKELETON));
-        monsters.addMonster(new Monster( 110, 110,  2, Direction.RIGHT, EnemyProperties.BAT));
+        monsters.addMonster(new Monster( 110, 110, 1, Direction.DOWN, EnemyProperties.BAT_UP1));
+        monsters.addMonster(new Monster( 110, 110,  2, Direction.RIGHT, EnemyProperties.BAT_UP1));
     }
 
     public static void renderGame() {

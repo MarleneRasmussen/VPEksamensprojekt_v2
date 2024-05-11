@@ -5,12 +5,12 @@ import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.controller.Direction;
 import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.entities.Entity;
+import dungeonCrawlerGame.entities.EntityImage;
 import dungeonCrawlerGame.entities.player.Player;
 import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 public class Monster implements Entity {
@@ -33,6 +33,8 @@ public class Monster implements Entity {
     private int monsterSpeed;
     private EnemyProperties enemy;
     private int turnCounter = 0;
+    private int imageCounter = 0;
+    private int imageNum = 1;
 
     public Monster(int startX, int startY, int location, Direction direction, EnemyProperties enemy) {
         this.posX = startX;
@@ -99,6 +101,15 @@ public class Monster implements Entity {
                 direction = Direction.UP;
                 posY -= monsterSpeed;
             }
+        }
+        imageCounter++;
+        if (imageCounter > 12) {
+            if (imageNum == 1) {
+                imageNum = 2;
+            } else if (imageNum == 2) {
+                imageNum = 1;
+            }
+            imageCounter = 0;
         }
     }
 
@@ -216,13 +227,36 @@ public class Monster implements Entity {
 
     @Override
     public Image getImage() {
-        BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
-        Graphics g = image.getGraphics();
-
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, Config.CELL_SIZE, Config.CELL_SIZE);
-        g.dispose();
-
+        switch (direction) {
+            case UP:
+                if (imageNum == 1) {
+                    image = EnemyProperties.BAT_UP1.getImage();
+                } else if (imageNum == 2) {
+                    image = EnemyProperties.BAT_UP2.getImage();
+                }
+                break;
+            case DOWN:
+                if (imageNum == 1) {
+                    image = EnemyProperties.BAT_DOWN1.getImage();
+                } else if (imageNum == 2) {
+                        image = EnemyProperties.BAT_DOWN2.getImage();
+                }
+                break;
+            case LEFT:
+                if (imageNum == 1) {
+                    image = EnemyProperties.BAT_LEFT1.getImage();
+                } else if (imageNum == 2) {
+                    image = EnemyProperties.BAT_LEFT2.getImage();
+                }
+                break;
+            case RIGHT:
+                if (imageNum == 1) {
+                    image = EnemyProperties.BAT_RIGHT1.getImage();
+                } else if (imageNum == 2) {
+                    image = EnemyProperties.BAT_RIGHT2.getImage();
+                }
+                break;
+        }
         return image;
     }
 

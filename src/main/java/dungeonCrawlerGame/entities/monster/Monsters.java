@@ -1,7 +1,6 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.gameWindow.GameInit;
@@ -10,8 +9,6 @@ import dungeonCrawlerGame.locations.DungeonMap;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static dungeonCrawlerGame.gameWindow.GameInit.player;
 
 public class Monsters {
 
@@ -61,18 +58,16 @@ public class Monsters {
                         damageCounter = 0;
                         GameInit.player.takeDamage(monster.attacks());
                     }
-                    //System.out.println("Player health: " + GameInit.player.getHealth());
                     if (KeyAction.attack)
                     {
                         staminaCounter++;
-                        if (staminaCounter == 10 && GameInit.player.getStamina() > 0)
+                        if (staminaCounter == 20 && GameInit.player.getStamina() > 0)
                         {
                             staminaCounter = 0;
                             GameInit.player.setStamina(Config.STAMINA_REDUCE);
                             monster.takeDamage(GameInit.player.attacks());
                         }
                     }
-
                 }
             }
         }
@@ -90,7 +85,7 @@ public class Monsters {
         {
             if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                g2d.drawImage(monster.getImage(), monster.getPosX(), monster.getPosY(), null);
+                g2d.drawImage(monster.getImage(), monster.getPosX(), monster.getPosY(), Config.CELL_SIZE, Config.CELL_SIZE, null);
 
                 double monsterHealth = monster.getHealth();
                 double monsterMaxHealth = EnemyProperties.getHealth(monster.getEnemy());

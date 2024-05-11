@@ -3,9 +3,53 @@ package dungeonCrawlerGame.entities.player;
 import java.awt.*;
 
 import dungeonCrawlerGame.Config;
+import dungeonCrawlerGame.items.ItemObject;
+import dungeonCrawlerGame.items.ItemProperties;
+
 import static dungeonCrawlerGame.gameWindow.GameInit.player;
 
 public class PlayerState {
+
+    private static int coins;
+    private static int keys;
+    private static int potions;
+
+    public static void updateInventory(ItemObject item) {
+        if(item.getItemProperties() == ItemProperties.COIN) {
+            coins++;
+        }
+        if(item.getItemProperties() == ItemProperties.KEY) {
+            keys++;
+        }
+        if(item.getItemProperties() == ItemProperties.POTION) {
+            potions++;
+        }
+        System.out.println("Coins: " + coins + " Keys: " + keys + " Potions: " + potions);
+    }
+
+    public void renderInventoryValue(Graphics2D g2d) {
+        g2d.setColor(new Color(0,0,0,150));
+        g2d.fillRoundRect(1130, 10, 575, 70, 10, 10);
+
+        g2d.setColor(new Color(255,255,255));
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString(String.valueOf(coins), 1220, 65);
+
+        g2d.setColor(new Color(255,255,255));
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString(String.valueOf(keys), 1420, 65);
+
+        g2d.setColor(new Color(255,255,255));
+        g2d.setFont(new Font("Arial", Font.BOLD, 50));
+        g2d.drawString(String.valueOf(potions), 1620, 65);
+
+    }
+
+    public void renderInventoryImages(Graphics2D g2d) {
+        g2d.drawImage(ItemProperties.COIN.getImage(), 1150, 20, 50,50, null);
+        g2d.drawImage(ItemProperties.KEY.getImage(), 1350, 20, 50,50,null);
+        g2d.drawImage(ItemProperties.POTION.getImage(), 1550, 20, 50,50,null);
+    }
 
     public void renderPlayerHP(Graphics2D g2d) {
 

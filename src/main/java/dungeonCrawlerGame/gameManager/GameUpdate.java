@@ -16,6 +16,7 @@ public class GameUpdate {
                         GameInit.player.increaseStamina();
                         GameInit.monsters.checkForDamage();
                         GameInit.monsters.checkDead();
+                        GameInit.items.checkIfPickedUp();
                 }
         }
 }

@@ -1,5 +1,6 @@
 package dungeonCrawlerGame.items;
 
+import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
@@ -47,8 +48,8 @@ public class Items {
         {
             if (item.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
             {
-                g2d.drawImage(item.getImage(), item.getPosX(), item.getPosY(), null);
-                
+                g2d.drawImage(item.getImage(), item.getPosX(), item.getPosY(), Config.CELL_SIZE, Config.CELL_SIZE, null);
+
             }
         }
     }

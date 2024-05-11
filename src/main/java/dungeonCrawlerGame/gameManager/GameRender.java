@@ -40,6 +40,8 @@ public class GameRender {
 
         //Draw player attack bar
         GameInit.playerState.renderPlayerStamina(g2d);
+        GameInit.playerState.renderInventoryValue(g2d);
+        GameInit.playerState.renderInventoryImages(g2d);
 
         graphics.dispose();
         bufferStrategy.show();
