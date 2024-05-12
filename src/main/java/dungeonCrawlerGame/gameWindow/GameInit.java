@@ -1,9 +1,7 @@
 package dungeonCrawlerGame.gameWindow;
 
-import dungeonCrawlerGame.controller.Direction;
-import dungeonCrawlerGame.entities.EnemyProperties;
+import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.player.Player;
-import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.monster.Monsters;
 import dungeonCrawlerGame.entities.player.PlayerState;
 import dungeonCrawlerGame.gameManager.GameUpdate;
@@ -37,9 +35,36 @@ public class GameInit {
         playerState = new PlayerState();
 
         items = new dungeonCrawlerGame.items.Items();
-        items.addItem(new ItemObject(200,300, 1, ItemProperties.DOOR));
-        items.addItem(new ItemObject(400,300, 1, ItemProperties.KEY));
+        items.addItem(new ItemObject(2 * Config.CELL_SIZE,2 * Config.CELL_SIZE, 1, ItemProperties.KEY));
+        items.addItem(new ItemObject(14 * Config.CELL_SIZE,9 * Config.CELL_SIZE, 1, ItemProperties.DOOR));
 
+        items.addItem(new ItemObject(7 * Config.CELL_SIZE,5 * Config.CELL_SIZE, 2, ItemProperties.DOOR));
+        items.addItem(new ItemObject(6 * Config.CELL_SIZE, Config.CELL_SIZE, 2, ItemProperties.POTION));
+
+        items.addItem(new ItemObject(3 * Config.CELL_SIZE,5 * Config.CELL_SIZE, 3, ItemProperties.DOOR));
+        items.addItem(new ItemObject(13 * Config.CELL_SIZE,9 * Config.CELL_SIZE, 3, ItemProperties.DOOR));
+        items.addItem(new ItemObject(10 * Config.CELL_SIZE, 3 * Config.CELL_SIZE, 3, ItemProperties.KEY));
+        items.addItem(new ItemObject(Config.CELL_SIZE,8 * Config.CELL_SIZE, 3, ItemProperties.POTION));
+
+        items.addItem(new ItemObject(5 * Config.CELL_SIZE,9 * Config.CELL_SIZE, 4, ItemProperties.DOOR));
+
+        items.addItem(new ItemObject(14 * Config.CELL_SIZE,6 * Config.CELL_SIZE, 5, ItemProperties.POTION));
+
+        items.addItem(new ItemObject(13 * Config.CELL_SIZE,9 * Config.CELL_SIZE, 6, ItemProperties.DOOR));
+        items.addItem(new ItemObject(2* Config.CELL_SIZE,2 * Config.CELL_SIZE, 6, ItemProperties.KEY));
+
+        items.addItem(new ItemObject(6 * Config.CELL_SIZE,2*Config.CELL_SIZE, 7, ItemProperties.KEY));
+        items.addItem(new ItemObject(16 * Config.CELL_SIZE,8*Config.CELL_SIZE, 7, ItemProperties.KEY));
+        items.addItem(new ItemObject(3 * Config.CELL_SIZE,Config.CELL_SIZE, 7, ItemProperties.POTION));
+
+        items.addItem(new ItemObject(2*Config.CELL_SIZE,2 * Config.CELL_SIZE, 9, ItemProperties.KEY));
+
+        items.addItem(new ItemObject(11 * Config.CELL_SIZE,6 * Config.CELL_SIZE, 10, ItemProperties.POTION));
+
+        items.addItem(new ItemObject(5*Config.CELL_SIZE,8 * Config.CELL_SIZE, 11, ItemProperties.KEY));
+
+        items.addItem(new ItemObject(8 * Config.CELL_SIZE,6 * Config.CELL_SIZE, 12, ItemProperties.DOOR));
+        items.addItem(new ItemObject(9 * Config.CELL_SIZE,4 * Config.CELL_SIZE, 12, ItemProperties.POTION));
 
         monsters = new Monsters();
     }

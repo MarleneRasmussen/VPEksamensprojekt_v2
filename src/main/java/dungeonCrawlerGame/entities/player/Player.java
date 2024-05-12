@@ -12,7 +12,6 @@ import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Cells;
 
 import java.awt.*;
-import java.sql.SQLOutput;
 
 public class Player implements Entity {
 
@@ -44,8 +43,8 @@ public class Player implements Entity {
     public void setDefaultSettings() {
         x = 1500;
         y = 200;
-        playerSpeed = 10;
         //playerSpeed = Config.DEFAULT_PLAYER_SPEED;
+        playerSpeed = 10;
         health = Config.DEFAULT_PLAYER_HEALTH;
         stamina = Config.DEFAULT_PLAYER_STAMINA;
         this.damage = Config.DEFAULT_PLAYER_DAMAGE;
@@ -53,7 +52,6 @@ public class Player implements Entity {
     }
 
     public void setPlayerSpeed(Cells cell) {
-
         //playerSpeed = cell.getSpeedImpact();
     }
 
