@@ -1,11 +1,9 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.controller.Direction;
 import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.entities.Entity;
-import dungeonCrawlerGame.entities.EntityImage;
 import dungeonCrawlerGame.entities.player.Player;
 import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
@@ -35,6 +33,7 @@ public class Monster implements Entity {
     private int turnCounter = 0;
     private int imageCounter = 0;
     private int imageNum = 1;
+    private int damageCounter = 0;
 
     public Monster(int startX, int startY, int location, Direction direction, EnemyProperties enemy) {
         this.posX = startX;
@@ -53,13 +52,10 @@ public class Monster implements Entity {
 
     @Override
     public void moveEntity() {
-        collision = false;
-        playerCollision = false;
 
         //Cant move out of the location
         if (posX >= Config.CELL_SIZE && posY >= Config.CELL_SIZE && posX + Config.CELL_SIZE <= Config.LOCATION_WIDTH - Config.CELL_SIZE && posY + Config.CELL_SIZE <= Config.LOCATION_HEIGHT - Config.CELL_SIZE) {
-            checkCollision();
-            attacks();
+
             // Follow player if same location and player is nearby
             if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
                 turnCounter = 0;
@@ -164,16 +160,6 @@ public class Monster implements Entity {
             return false;
         }
     }
-    public void checkCollision() {
-
-        CollisionChecker.checkCellCollision(this);
-        CollisionChecker.checkItemCollision(this);
-        CollisionChecker.checkPlayerCollision(this, player);
-    }
-
-    public void setPlayerMonsterCollision(boolean playerCollision) {
-        this.playerCollision = playerCollision;
-    }
 
     @Override
     public Rectangle getBounds() {
@@ -213,6 +199,11 @@ public class Monster implements Entity {
     @Override
     public void setLocationNumber(int locationNumber) {
         this.locationNumber = locationNumber;
+    }
+
+    @Override
+    public void setPlayerMonsterCollision(boolean playerCollision) {
+        this.playerCollision = playerCollision;
     }
 
     @Override
@@ -261,7 +252,11 @@ public class Monster implements Entity {
     }
 
     @Override
-    public int attacks() {
-        return damage;
+    public void attacks() {
+        damageCounter++;
+        if (damageCounter == 30) {
+            damageCounter = 0;
+            GameInit.player.takeDamage(this.damage);
+        }
     }
 }

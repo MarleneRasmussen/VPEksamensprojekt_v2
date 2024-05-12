@@ -9,7 +9,6 @@ import dungeonCrawlerGame.entities.player.PlayerState;
 import dungeonCrawlerGame.gameManager.GameUpdate;
 import dungeonCrawlerGame.items.ItemObject;
 import dungeonCrawlerGame.items.ItemProperties;
-import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.gameManager.GameRender;
 
@@ -17,7 +16,7 @@ public class GameInit {
 
     public static Monsters monsters;
     public static Player player;
-    public static Items items;
+    public static dungeonCrawlerGame.items.Items items;
     public static PlayerState playerState;
     public static int currentLocationNum;
 
@@ -37,12 +36,12 @@ public class GameInit {
         player = new Player();
         playerState = new PlayerState();
 
-        items = new Items();
-        items.addItem(new ItemObject(500,500, 1, ItemProperties.COIN));
+        items = new dungeonCrawlerGame.items.Items();
+        items.addItem(new ItemObject(200,300, 1, ItemProperties.DOOR));
+        items.addItem(new ItemObject(400,300, 1, ItemProperties.KEY));
+
 
         monsters = new Monsters();
-        monsters.addMonster(new Monster( 110, 110, 1, Direction.DOWN, EnemyProperties.BAT_UP1));
-        monsters.addMonster(new Monster( 110, 110,  2, Direction.RIGHT, EnemyProperties.BAT_UP1));
     }
 
     public static void renderGame() {

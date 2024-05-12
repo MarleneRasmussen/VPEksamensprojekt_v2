@@ -11,7 +11,7 @@ public class ItemObject implements Item{
     private int posX;
     private int posY;
     private int locationNumber;
-    private ItemProperties itemProperties;
+    private final ItemProperties itemProperties;
     private BufferedImage image;
     private boolean pickedUp;
     private boolean inRange;
@@ -29,14 +29,6 @@ public class ItemObject implements Item{
 
     @Override
     public void use() {
-        switch (itemProperties) {
-            case COIN:
-                break;
-            case KEY:
-                break;
-            case POTION:
-                break;
-        }
     }
 
     @Override
@@ -44,9 +36,8 @@ public class ItemObject implements Item{
     }
 
     @Override
-    public void pickUp() {
-        PlayerState.updateInventory(this);
-        pickedUp = true;
+    public void pickUp(boolean pickedUp){
+        this.pickedUp = pickedUp;
     }
 
     @Override
@@ -60,6 +51,9 @@ public class ItemObject implements Item{
                 break;
             case POTION:
                 image = ItemProperties.POTION.getImage();
+                break;
+            case DOOR:
+                image = ItemProperties.DOOR.getImage();
                 break;
         }
         return image;
@@ -108,5 +102,9 @@ public class ItemObject implements Item{
     @Override
     public void setInRange(boolean inRange) {
         this.inRange = inRange;
+    }
+
+    public boolean isInRange() {
+        return inRange;
     }
 }

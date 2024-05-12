@@ -6,6 +6,8 @@ import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.entities.Entity;
 import dungeonCrawlerGame.entities.EntityImage;
+import dungeonCrawlerGame.entities.monster.Monsters;
+import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Cells;
 
@@ -31,6 +33,8 @@ public class Player implements Entity {
     private int stamina;
     private int staminaCounter = 0;
     public Rectangle entityBounds = new Rectangle(x, y, Config.CELL_SIZE, Config.CELL_SIZE);
+    private int monsterIndex;
+    private int itemIndex;
 
     public Player() {
         setDefaultSettings();
@@ -70,12 +74,23 @@ public class Player implements Entity {
                     //Check collision only inside current location if moving
                     if (x >= 5 && x + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH
                             && y + Config.CELL_SIZE + 5 <= Config.LOCATION_HEIGHT && y >= 5) {
+
                         CollisionChecker.checkCellCollision(this);
                         setPlayerSpeed(CollisionChecker.getCurrentCell(this));
                         CollisionChecker.checkItemCollision(this);
+
+                        itemIndex = CollisionChecker.checkItemCollision(this);
+                        if (itemIndex != -1){
+                            PlayerState.updateInventory(Items.getItem().get(itemIndex));
+                        }
+
+                        monsterIndex = CollisionChecker.checkEntityCollision(this, Monsters.getMonsters());
+                        if (monsterIndex != -1) {
+                            attacks();
+                        }
                     }
 
-                    if (direction != null && !collision && !monsterCollision){
+                    if (direction != null && !collision && !playerAttacks){
                         switch (direction) {
                             case UP:
                                 if (x >= 5 && x + Config.CELL_SIZE + 5 <= Config.LOCATION_WIDTH) {
@@ -242,8 +257,11 @@ public class Player implements Entity {
     }
 
     @Override
-    public int attacks() {
-        return this.damage;
+    public void attacks() {
+        if(stamina > 0 && playerAttacks){
+            stamina--;
+            Monsters.getMonsters().get(monsterIndex).takeDamage(this.damage);
+        }
     }
 
     public int getStamina() {
@@ -252,5 +270,9 @@ public class Player implements Entity {
 
     public void setStamina(int stamina) {
         this.stamina = this.stamina + stamina;
+    }
+
+    public void setHealth(int health) {
+        this.health = this.health + health;
     }
 }

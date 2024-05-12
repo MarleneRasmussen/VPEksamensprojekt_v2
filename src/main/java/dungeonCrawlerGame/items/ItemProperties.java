@@ -5,23 +5,23 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public enum ItemProperties {
-    COIN("/Items/Coin.png", false),
-    KEY("/Items/Key.png", false),
-    POTION("/Items/Position.png", false),
-    DOOR("/Cells/BlackSpace.png", true);
+    COIN(false, "/Items/Coin.png"),
+    KEY(false, "/Items/Key.png"),
+    POTION(false, "/Items/Position.png"),
+    DOOR(true, "/Cells/BlackSpace.png");
 
     private String path;
     private boolean isSolid;
     private BufferedImage image;
 
-    ItemProperties(String path, boolean isSolid) {
+    ItemProperties(boolean isSolid, String path) {
+        this.isSolid = isSolid;
         try{
             this.image = ImageIO.read(getClass().getResourceAsStream(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-
     public BufferedImage getImage() {
         return image;
     }

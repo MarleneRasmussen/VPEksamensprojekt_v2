@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
 
 public class KeyAction implements KeyListener {
 
-    public static boolean up, down, left, right, attack = false;
+    public static boolean up, down, left, right, attack, usePotion, useKey = false;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -38,6 +38,12 @@ public class KeyAction implements KeyListener {
         if (key == KeyEvent.VK_SPACE) {
             attack = true;
         }
+        if (key == KeyEvent.VK_P){
+            usePotion = true;
+        }
+        if (key == KeyEvent.VK_K){
+            useKey = true;
+        }
     }
 
     @Override
@@ -57,6 +63,12 @@ public class KeyAction implements KeyListener {
         }
         if (key == KeyEvent.VK_SPACE) {
             attack = false;
+        }
+        if (key == KeyEvent.VK_P){
+            usePotion = false;
+        }
+        if (key == KeyEvent.VK_K){
+            useKey = false;
         }
     }
 }

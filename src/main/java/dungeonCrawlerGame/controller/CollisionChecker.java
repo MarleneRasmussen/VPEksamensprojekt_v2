@@ -2,14 +2,17 @@ package dungeonCrawlerGame.controller;
 
 import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.Entity;
+import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.player.Player;
+import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.items.ItemObject;
-import dungeonCrawlerGame.items.ItemProperties;
 import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Location;
 
 import dungeonCrawlerGame.locations.Cells;
+
+import java.util.List;
 
 public class CollisionChecker {
 
@@ -76,55 +79,93 @@ public class CollisionChecker {
         return currentLocation[playerBottomRow][playerColumn];
     }
 
-    public static void checkPlayerCollision(Entity entity, Player player) {
+    public static int checkEntityCollision(Entity entity, List<Monster> monsters) {
+
+        int index = -1;
+        for (int i = 0; i < monsters.size(); i++) {
+            if (monsters.get(i).getLocationNumber() == DungeonMap.getCurrentWorldLocation()) {
+
+                Monster monster = monsters.get(i);
+                monster.getBounds().x = monster.getPosX();
+                monster.getBounds().y = monster.getPosY();
+
+                entity.getBounds().x = entity.getPosX();
+                entity.getBounds().y = entity.getPosY();
+
+                switch (entity.getDirection()) {
+                    case UP:
+                        entity.getBounds().y -= entity.getSpeed();
+                        if (entity.getBounds().intersects(monster.getBounds())) {
+                            entity.setCollision(true);
+                            index = i;
+                        }
+                        break;
+                    case DOWN:
+                        entity.getBounds().y += entity.getSpeed();
+                        if (entity.getBounds().intersects(monster.getBounds())) {
+                            entity.setCollision(true);
+                            index = i;
+                        }
+                        break;
+                    case LEFT:
+                        entity.getBounds().x -= entity.getSpeed();
+                        if (entity.getBounds().intersects(monster.getBounds())) {
+                            entity.setCollision(true);
+                            index = i;
+                        }
+                        break;
+                    case RIGHT:
+                        entity.getBounds().x += entity.getSpeed();
+                        if (entity.getBounds().intersects(monster.getBounds())) {
+                            entity.setCollision(true);
+                            index = i;
+                        }
+                        break;
+                }
+            }
+        }
+        return index;
+    }
+
+    public static void checkPlayerCollision(Entity entity) {
 
         entity.getBounds().x = entity.getPosX();
         entity.getBounds().y = entity.getPosY();
 
-        player.getBounds().x = player.getPosX();
-        player.getBounds().y = player.getPosY();
+        GameInit.player.getBounds().x = GameInit.player.getPosX();
+        GameInit.player.getBounds().y = GameInit.player.getPosY();
 
-        switch (entity.getDirection()) {
+        switch(entity.getDirection()){
             case UP:
                 entity.getBounds().y -= entity.getSpeed();
-                if (entity.getBounds().intersects(player.getBounds())) {
+                if(entity.getBounds().intersects(GameInit.player.getBounds())){
                     entity.setCollision(true);
-                    entity.setPlayerMonsterCollision(true);
-                    player.monsterCollision = true;
                 }
                 break;
             case DOWN:
                 entity.getBounds().y += entity.getSpeed();
-                if (entity.getBounds().intersects(player.getBounds())) {
+                if(entity.getBounds().intersects(GameInit.player.getBounds())){
                     entity.setCollision(true);
-                    entity.setPlayerMonsterCollision(true);
-                    player.monsterCollision = true;
                 }
                 break;
             case LEFT:
                 entity.getBounds().x -= entity.getSpeed();
-                if (entity.getBounds().intersects(player.getBounds())) {
+                if(entity.getBounds().intersects(GameInit.player.getBounds())){
                     entity.setCollision(true);
-                    entity.setPlayerMonsterCollision(true);
-                    player.monsterCollision = true;
                 }
                 break;
             case RIGHT:
                 entity.getBounds().x += entity.getSpeed();
-                if (entity.getBounds().intersects(player.getBounds())) {
+                if(entity.getBounds().intersects(GameInit.player.getBounds())){
                     entity.setCollision(true);
-                    entity.setPlayerMonsterCollision(true);
-                    player.monsterCollision = true;
                 }
                 break;
         }
-        entity.getBounds().x = entity.getPosX();
-        entity.getBounds().y = entity.getPosY();
     }
 
+    public static int checkItemCollision(Entity entity) {
 
-
-    public static void checkItemCollision(Entity entity) {
+        int index = -1;
 
         for (int i = 0; i < Items.getItem().size(); i++) {
             if (Items.getItem().get(i).getLocationNumber() == DungeonMap.getCurrentWorldLocation()) {
@@ -139,44 +180,56 @@ public class CollisionChecker {
                     case UP:
                         entity.getBounds().y -= entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            if(item.getItemProperties().isSolid()){
-                                Items.getItem().get(i).setInRange(true);
+                            if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
-                            }else {
-                                item.pickUp();
+                                if (entity instanceof Player) {
+                                    index = i;
+                                }
+                            }
+                            else if(!item.getItemProperties().isSolid() && entity instanceof Player){
+                                item.pickUp(true);
                             }
                         }
                         break;
                     case DOWN:
                         entity.getBounds().y += entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            if(item.getItemProperties().isSolid()){
-                                Items.getItem().get(i).setInRange(true);
+                            if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
-                            }else {
-                                item.pickUp();
+                                if (entity instanceof Player) {
+                                    index = i;
+                                }
+                            }
+                            else if(!item.getItemProperties().isSolid() && entity instanceof Player){
+                                item.pickUp(true);
                             }
                         }
                         break;
                     case LEFT:
                         entity.getBounds().x -= entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            if(item.getItemProperties().isSolid()){
-                                Items.getItem().get(i).setInRange(true);
+                            if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
-                            }else {
-                                item.pickUp();
+                                if (entity instanceof Player) {
+                                    index = i;
+                                }
+                            }
+                            else if(!item.getItemProperties().isSolid() && entity instanceof Player){
+                                item.pickUp(true);
                             }
                         }
                         break;
                     case RIGHT:
                         entity.getBounds().x += entity.getSpeed();
                         if (entity.getBounds().intersects(item.itemBounds)) {
-                            if(item.getItemProperties().isSolid()){
-                                Items.getItem().get(i).setInRange(true);
+                            if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
-                            }else {
-                                item.pickUp();
+                                if (entity instanceof Player) {
+                                    index = i;
+                                }
+                            }
+                            else if(!item.getItemProperties().isSolid() && entity instanceof Player){
+                                item.pickUp(true);
                             }
                         }
                         break;
@@ -186,6 +239,7 @@ public class CollisionChecker {
             }
 
         }
+        return index;
     }
 }
 

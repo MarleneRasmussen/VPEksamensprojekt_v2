@@ -3,6 +3,7 @@ package dungeonCrawlerGame.entities.player;
 import java.awt.*;
 
 import dungeonCrawlerGame.Config;
+import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.items.ItemObject;
 import dungeonCrawlerGame.items.ItemProperties;
 
@@ -13,8 +14,10 @@ public class PlayerState {
     private static int coins;
     private static int keys;
     private static int potions;
+    private static int potionCounter = 9;
+    private static int keyCounter = 9;
 
-    public static void updateInventory(ItemObject item) {
+    public static void addItemToInventory(ItemObject item) {
         if(item.getItemProperties() == ItemProperties.COIN) {
             coins++;
         }
@@ -24,7 +27,24 @@ public class PlayerState {
         if(item.getItemProperties() == ItemProperties.POTION) {
             potions++;
         }
-        System.out.println("Coins: " + coins + " Keys: " + keys + " Potions: " + potions);
+    }
+
+    public static void updateInventory(ItemObject item) {
+        if(item.getItemProperties() == ItemProperties.DOOR && keys > 0) {
+            item.pickUp(true);
+            keys--;
+        }
+    }
+
+    public static void useFromInventory() {
+        if(potions > 0 && player.getHealth() < Config.DEFAULT_PLAYER_HEALTH && KeyAction.usePotion) {
+            potionCounter++;
+            if (potionCounter == 10) {
+                    player.setHealth(Config.DEFAULT_PLAYER_HEALTH- player.getHealth());
+                    potions--;
+                }
+                potionCounter = 0;
+        }
     }
 
     public void renderInventoryValue(Graphics2D g2d) {
@@ -42,7 +62,6 @@ public class PlayerState {
         g2d.setColor(new Color(255,255,255));
         g2d.setFont(new Font("Arial", Font.BOLD, 50));
         g2d.drawString(String.valueOf(potions), 1620, 65);
-
     }
 
     public void renderInventoryImages(Graphics2D g2d) {

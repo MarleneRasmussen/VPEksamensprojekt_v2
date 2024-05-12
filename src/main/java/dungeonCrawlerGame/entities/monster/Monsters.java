@@ -1,9 +1,8 @@
 package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
-import dungeonCrawlerGame.controller.KeyAction;
+import dungeonCrawlerGame.controller.CollisionChecker;
 import dungeonCrawlerGame.entities.EnemyProperties;
-import dungeonCrawlerGame.gameWindow.GameInit;
 import dungeonCrawlerGame.locations.DungeonMap;
 
 import java.awt.*;
@@ -46,28 +45,27 @@ public class Monsters {
         }
     }
 
+    public void checkCollision()
+    {
+        for (int i = 0; i < monsters.size(); i++)
+        {
+            CollisionChecker.checkEntityCollision(monsters.get(i),getMonsters());
+            int index = CollisionChecker.checkEntityCollision(monsters.get(i),getMonsters());
+            if (i == index)
+            {
+                monsters.get(i).setCollision(false);
+            }
+            CollisionChecker.checkPlayerCollision(monsters.get(i));
+            CollisionChecker.checkItemCollision(monsters.get(i));
+        }
+    }
+
     public void checkForDamage(){
         for (Monster monster : monsters)
         {
-            if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation())
-            {
-                if (monster.playerCollision){
-                    damageCounter++;
-                    if (damageCounter == 30)
-                    {
-                        damageCounter = 0;
-                        GameInit.player.takeDamage(monster.attacks());
-                    }
-                    if (KeyAction.attack)
-                    {
-                        staminaCounter++;
-                        if (staminaCounter == 20 && GameInit.player.getStamina() > 0)
-                        {
-                            staminaCounter = 0;
-                            GameInit.player.setStamina(Config.STAMINA_REDUCE);
-                            monster.takeDamage(GameInit.player.attacks());
-                        }
-                    }
+            if (monster.getLocationNumber() == DungeonMap.getCurrentWorldLocation()) {
+                if (monster.playerCollision) {
+                    monster.attacks();
                 }
             }
         }

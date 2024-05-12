@@ -12,7 +12,7 @@ public interface Entity {
     public int getLocationNumber();
     public Direction getDirection();
     public Image getImage();
-    public int attacks();
+    public void attacks();
     public void moveEntity();
     public void takeDamage(int i);
     public int getSpeed();
