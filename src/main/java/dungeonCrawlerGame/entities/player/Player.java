@@ -12,6 +12,7 @@ import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Cells;
 
 import java.awt.*;
+import java.sql.SQLOutput;
 
 public class Player implements Entity {
 
@@ -41,9 +42,10 @@ public class Player implements Entity {
     }
 
     public void setDefaultSettings() {
-        x = Config.LOCATION_WIDTH / 2;
-        y = Config.LOCATION_HEIGHT / 2;
-        playerSpeed = Config.DEFAULT_PLAYER_SPEED;
+        x = 1500;
+        y = 200;
+        playerSpeed = 10;
+        //playerSpeed = Config.DEFAULT_PLAYER_SPEED;
         health = Config.DEFAULT_PLAYER_HEALTH;
         stamina = Config.DEFAULT_PLAYER_STAMINA;
         this.damage = Config.DEFAULT_PLAYER_DAMAGE;
@@ -51,7 +53,8 @@ public class Player implements Entity {
     }
 
     public void setPlayerSpeed(Cells cell) {
-        playerSpeed = cell.getSpeedImpact();
+
+        //playerSpeed = cell.getSpeedImpact();
     }
 
     @Override
@@ -151,7 +154,7 @@ public class Player implements Entity {
                         image = EntityImage.PLAYER_UP2.getImage();
                     }
                 } else {
-                    image = Cells.BL.getImage();
+                    //image = Cells.BL.getImage();
                 }
                 break;
             case DOWN:
@@ -162,7 +165,7 @@ public class Player implements Entity {
                         image = EntityImage.PLAYER_DOWN2.getImage();
                     }
                 } else {
-                    image = Cells.BL.getImage();
+                    //image = Cells.BL.getImage();
                 }
                 break;
             case LEFT:
@@ -174,7 +177,7 @@ public class Player implements Entity {
                     }
                 }
                 else {
-                    image = Cells.BL.getImage();
+                    //image = Cells.BL.getImage();
                 }
                 break;
             case RIGHT:
@@ -186,7 +189,7 @@ public class Player implements Entity {
                     }
                 }
                 else {
-                    image = Cells.BL.getImage();
+                    //image = Cells.BL.getImage();
                 }
                 break;
         }

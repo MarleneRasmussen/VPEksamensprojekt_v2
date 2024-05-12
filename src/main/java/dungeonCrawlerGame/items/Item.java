@@ -6,7 +6,7 @@ public interface Item {
 
     public void use();
     public void drop();
-    public void pickUp();
+    public void pickUp(boolean pickedUp);
     public BufferedImage getImage();
     public int getPosX();
     public int getPosY();

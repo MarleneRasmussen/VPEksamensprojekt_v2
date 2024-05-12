@@ -8,7 +8,7 @@ public enum ItemProperties {
     COIN(false, "/Items/Coin.png"),
     KEY(false, "/Items/Key.png"),
     POTION(false, "/Items/Position.png"),
-    DOOR(true, "/Cells/BlackSpace.png");
+    DOOR(true, "/Items/Door.png");
 
     private String path;
     private boolean isSolid;

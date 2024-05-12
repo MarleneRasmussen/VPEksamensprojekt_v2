@@ -7,18 +7,28 @@ import java.io.IOException;
 public enum Cells {
     BS("/Cells/BlackSpace.png", true, 0),
     GR("/Cells/Grass.png", false, 3),
+    WA("/Cells/Water.png", true,0),
+    W1("/Cells/Water_GrassB.png", true,0),
+    W2("/Cells/Water_GrassT.png", true,0),
     LA("/Cells/Lava.png", true, 0),
     SA("/Cells/Sand.png", false, 2),
-    TI("/Cells/Tile.png", false,5),
-    BL("/Cells/Tile_SandBL.png", false,5),
-    BR("/Cells/Tile_SandBR.png", false,5),
-    TL("/Cells/Tile_SandTL.png", false,5),
-    TR("/Cells/Tile_SandTR.png", false,5),
-    ST("/Cells/Tile_SandTop.png", false,5),
-    SB("/Cells/Tile_SandBottom.png", false,5),
-    SL("/Cells/Tile_SandLeft.png", false,5),
-    SR("/Cells/Tile_SandRight.png", false,5),
-    WA("/Cells/Wall.png", true,0);
+    T0("/Cells/Tile.png", false,4),
+    T1("/Cells/BrokenTile.png", false,4),
+    T2("/Cells/Tile_SandBottom.png", false,4),
+    T3("/Cells/Tile_SandBottomLeft.png", false,4),
+    T4("/Cells/Tile_SandBottomRight.png", false,4),
+    T5("/Cells/Tile_SandLeft.png", false,4),
+    T6("/Cells/Tile_SandRight.png", false,4),
+    T7("/Cells/Tile_SandTop.png", false,4),
+    T8("/Cells/Tile_SandTopLeft.png", false,4),
+    T9("/Cells/Tile_SandTopRight.png", false,4),
+    II("/Cells/Wall.png", true,0),
+    I1("/Cells/Wall_Fire.png", true,0),
+    B1("/Cells/Bridge_BottomRight.png", false,4),
+    B2("/Cells/Bridge_TopRight.png", false,4),
+    B3("/Cells/Bridge_BottomLeft.png", false,4),
+    B4("/Cells/Bridge_TopLeft.png", false,4);
+
 
         private BufferedImage image;
         private boolean isSolid;
