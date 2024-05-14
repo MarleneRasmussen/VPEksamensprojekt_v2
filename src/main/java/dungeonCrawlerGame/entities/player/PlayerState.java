@@ -7,7 +7,7 @@ import dungeonCrawlerGame.controller.KeyAction;
 import dungeonCrawlerGame.items.ItemObject;
 import dungeonCrawlerGame.items.ItemProperties;
 
-import static dungeonCrawlerGame.gameWindow.GameInit.player;
+import static dungeonCrawlerGame.gameWindow.GameEngine.player;
 
 public class PlayerState {
 
@@ -15,7 +15,6 @@ public class PlayerState {
     private static int keys;
     private static int potions;
     private static int potionCounter = 9;
-    private static int keyCounter = 9;
 
     public static void addItemToInventory(ItemObject item) {
         if(item.getItemProperties() == ItemProperties.COIN) {

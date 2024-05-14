@@ -4,12 +4,11 @@ import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.entities.Entity;
 import dungeonCrawlerGame.entities.monster.Monster;
 import dungeonCrawlerGame.entities.player.Player;
-import dungeonCrawlerGame.gameWindow.GameInit;
+import dungeonCrawlerGame.gameWindow.GameEngine;
 import dungeonCrawlerGame.items.ItemObject;
 import dungeonCrawlerGame.items.Items;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.Location;
-
 import dungeonCrawlerGame.locations.Cells;
 
 import java.util.List;
@@ -19,10 +18,10 @@ public class CollisionChecker {
     public static void checkCellCollision(Entity entity) {
         Cells[][] currentLocation = Location.returnLocation(DungeonMap.getCurrentWorldLocation());
 
-        int entityLeft = entity.getPosX() + Config.CELL_SIZE / 6;
-        int entityRight = entity.getPosX() + (Config.CELL_SIZE / 6) * 5;
-        int entityTop = entity.getPosY() + Config.CELL_SIZE / 3;
-        int entityBottom = entity.getPosY() + Config.CELL_SIZE;
+        int entityLeft = entity.getX() + Config.CELL_SIZE / 6;
+        int entityRight = entity.getX() + (Config.CELL_SIZE / 6) * 5;
+        int entityTop = entity.getY() + Config.CELL_SIZE / 3;
+        int entityBottom = entity.getY() + Config.CELL_SIZE;
 
         int entityRightColumn = entityRight / Config.CELL_SIZE;
         int entityLeftColumn = entityLeft / Config.CELL_SIZE;
@@ -70,8 +69,8 @@ public class CollisionChecker {
     public static Cells getCurrentCell(Player player) {
         Cells[][] currentLocation = Location.returnLocation(DungeonMap.getCurrentWorldLocation());
 
-        int playerCenter = player.getPosX() + Config.CELL_SIZE / 2;
-        int playerBottom = player.getPosY() + Config.CELL_SIZE - 10;
+        int playerCenter = player.getX() + Config.CELL_SIZE / 2;
+        int playerBottom = player.getY() + Config.CELL_SIZE - 10;
 
         int playerColumn = playerCenter / Config.CELL_SIZE;
         int playerBottomRow = playerBottom / Config.CELL_SIZE;
@@ -86,37 +85,37 @@ public class CollisionChecker {
             if (monsters.get(i).getLocationNumber() == DungeonMap.getCurrentWorldLocation()) {
 
                 Monster monster = monsters.get(i);
-                monster.getBounds().x = monster.getPosX();
-                monster.getBounds().y = monster.getPosY();
+                monster.getSolidBounds().x = monster.getX();
+                monster.getSolidBounds().y = monster.getY();
 
-                entity.getBounds().x = entity.getPosX();
-                entity.getBounds().y = entity.getPosY();
+                entity.getSolidBounds().x = entity.getX();
+                entity.getSolidBounds().y = entity.getY();
 
                 switch (entity.getDirection()) {
                     case UP:
-                        entity.getBounds().y -= entity.getSpeed();
-                        if (entity.getBounds().intersects(monster.getBounds())) {
+                        entity.getSolidBounds().y -= entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(monster.getSolidBounds())) {
                             entity.setCollision(true);
                             index = i;
                         }
                         break;
                     case DOWN:
-                        entity.getBounds().y += entity.getSpeed();
-                        if (entity.getBounds().intersects(monster.getBounds())) {
+                        entity.getSolidBounds().y += entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(monster.getSolidBounds())) {
                             entity.setCollision(true);
                             index = i;
                         }
                         break;
                     case LEFT:
-                        entity.getBounds().x -= entity.getSpeed();
-                        if (entity.getBounds().intersects(monster.getBounds())) {
+                        entity.getSolidBounds().x -= entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(monster.getSolidBounds())) {
                             entity.setCollision(true);
                             index = i;
                         }
                         break;
                     case RIGHT:
-                        entity.getBounds().x += entity.getSpeed();
-                        if (entity.getBounds().intersects(monster.getBounds())) {
+                        entity.getSolidBounds().x += entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(monster.getSolidBounds())) {
                             entity.setCollision(true);
                             index = i;
                         }
@@ -127,40 +126,43 @@ public class CollisionChecker {
         return index;
     }
 
-    public static void checkPlayerCollision(Entity entity) {
+    public static boolean checkPlayerCollision(Entity entity) {
 
-        entity.getBounds().x = entity.getPosX();
-        entity.getBounds().y = entity.getPosY();
+        boolean playerCollision = false;
 
-        GameInit.player.getBounds().x = GameInit.player.getPosX();
-        GameInit.player.getBounds().y = GameInit.player.getPosY();
+        entity.getSolidBounds().x = entity.getX();
+        entity.getSolidBounds().y = entity.getY();
+
+        GameEngine.player.getSolidBounds().x = GameEngine.player.getX();
+        GameEngine.player.getSolidBounds().y = GameEngine.player.getY();
 
         switch(entity.getDirection()){
             case UP:
-                entity.getBounds().y -= entity.getSpeed();
-                if(entity.getBounds().intersects(GameInit.player.getBounds())){
-                    entity.setCollision(true);
+                entity.getSolidBounds().y -= entity.getSpeed();
+                if(entity.getSolidBounds().intersects(GameEngine.player.getSolidBounds())){
+                    playerCollision = true;
                 }
                 break;
             case DOWN:
-                entity.getBounds().y += entity.getSpeed();
-                if(entity.getBounds().intersects(GameInit.player.getBounds())){
-                    entity.setCollision(true);
+                entity.getSolidBounds().y += entity.getSpeed();
+                if(entity.getSolidBounds().intersects(GameEngine.player.getSolidBounds())){
+                    playerCollision = true;
                 }
                 break;
             case LEFT:
-                entity.getBounds().x -= entity.getSpeed();
-                if(entity.getBounds().intersects(GameInit.player.getBounds())){
-                    entity.setCollision(true);
+                entity.getSolidBounds().x -= entity.getSpeed();
+                if(entity.getSolidBounds().intersects(GameEngine.player.getSolidBounds())){
+                    playerCollision = true;
                 }
                 break;
             case RIGHT:
-                entity.getBounds().x += entity.getSpeed();
-                if(entity.getBounds().intersects(GameInit.player.getBounds())){
-                    entity.setCollision(true);
+                entity.getSolidBounds().x += entity.getSpeed();
+                if(entity.getSolidBounds().intersects(GameEngine.player.getSolidBounds())){
+                    playerCollision = true;
                 }
                 break;
         }
+        return playerCollision;
     }
 
     public static int checkItemCollision(Entity entity) {
@@ -173,13 +175,13 @@ public class CollisionChecker {
                 item.itemBounds.x = item.getPosX();
                 item.itemBounds.y = item.getPosY();
 
-                entity.getBounds().x = entity.getPosX();
-                entity.getBounds().y = entity.getPosY();
+                entity.getSolidBounds().x = entity.getX();
+                entity.getSolidBounds().y = entity.getY();
 
                 switch (entity.getDirection()) {
                     case UP:
-                        entity.getBounds().y -= entity.getSpeed();
-                        if (entity.getBounds().intersects(item.itemBounds)) {
+                        entity.getSolidBounds().y -= entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(item.itemBounds)) {
                             if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
                                 if (entity instanceof Player) {
@@ -192,8 +194,8 @@ public class CollisionChecker {
                         }
                         break;
                     case DOWN:
-                        entity.getBounds().y += entity.getSpeed();
-                        if (entity.getBounds().intersects(item.itemBounds)) {
+                        entity.getSolidBounds().y += entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(item.itemBounds)) {
                             if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
                                 if (entity instanceof Player) {
@@ -206,8 +208,8 @@ public class CollisionChecker {
                         }
                         break;
                     case LEFT:
-                        entity.getBounds().x -= entity.getSpeed();
-                        if (entity.getBounds().intersects(item.itemBounds)) {
+                        entity.getSolidBounds().x -= entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(item.itemBounds)) {
                             if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
                                 if (entity instanceof Player) {
@@ -220,8 +222,8 @@ public class CollisionChecker {
                         }
                         break;
                     case RIGHT:
-                        entity.getBounds().x += entity.getSpeed();
-                        if (entity.getBounds().intersects(item.itemBounds)) {
+                        entity.getSolidBounds().x += entity.getSpeed();
+                        if (entity.getSolidBounds().intersects(item.itemBounds)) {
                             if(item.getItemProperties().isSolid()) {
                                 entity.setCollision(true);
                                 if (entity instanceof Player) {
@@ -234,8 +236,8 @@ public class CollisionChecker {
                         }
                         break;
                 }
-                entity.getBounds().x = entity.getPosX();
-                entity.getBounds().y = entity.getPosY();
+                entity.getSolidBounds().x = entity.getX();
+                entity.getSolidBounds().y = entity.getY();
             }
 
         }

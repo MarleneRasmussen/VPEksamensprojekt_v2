@@ -21,19 +21,19 @@ public class DungeonMap {
             {9, 10, 11, 12}};
 
     public static void getCurrentWorldLocation(Player player) {
-        if (player.getPosX() > Config.LOCATION_WIDTH) {
+        if (player.getX() > Config.LOCATION_WIDTH) {
             player.setX(0);
             worldColumn++;
         }
-        if (player.getPosX() < 0) {
+        if (player.getX() < 0) {
             player.setX(Config.LOCATION_WIDTH);
             worldColumn--;
         }
-        if (player.getPosY() > Config.LOCATION_HEIGHT) {
+        if (player.getY() > Config.LOCATION_HEIGHT) {
             player.setY(0);
             worldRow++;
         }
-        if (player.getPosY() < 0) {
+        if (player.getY() < 0) {
             player.setY(Config.LOCATION_HEIGHT);
             worldRow--;
         }

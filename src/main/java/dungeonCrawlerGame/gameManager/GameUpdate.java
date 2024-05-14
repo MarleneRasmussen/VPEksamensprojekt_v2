@@ -1,26 +1,30 @@
 package dungeonCrawlerGame.gameManager;
 
 import dungeonCrawlerGame.entities.player.PlayerState;
-import dungeonCrawlerGame.gameWindow.GameInit;
+import dungeonCrawlerGame.gameWindow.GameEngine;
 import dungeonCrawlerGame.locations.DungeonMap;
 import dungeonCrawlerGame.locations.LocationRender;
 
 public class GameUpdate {
 
-        public static void updateGame(){
-                if (GameInit.gameState == GameInit.gameRunning){
+        public static void updateGame() {
+                if (GameEngine.gameState == GameEngine.gamePaused) {
+                        return;
+                } else if (GameEngine.gameState == GameEngine.gameOver) {
+                        return;
+                }else {
 
-                        GameInit.monsters.checkForDamage();
-                        GameInit.monsters.checkCollision();
-                        GameInit.monsters.updateMonsters();
-                        GameInit.player.moveEntity();
-                        GameInit.currentLocationNum = DungeonMap.getCurrentWorldLocation();
-                        GameInit.monsters.checkDead();
+                        GameEngine.monsters.checkCollision();
+                        GameEngine.monsters.updateMonsters();
+                        GameEngine.player.move();
+                        GameEngine.currentLocationNum = DungeonMap.getCurrentWorldLocation();
+                        GameEngine.monsters.checkDead();
                         LocationRender.getNewLocation();
-                        GameInit.player.increaseStamina();
-                        GameInit.monsters.checkDead();
-                        GameInit.items.checkIfPickedUp();
+                        GameEngine.player.increaseStamina();
+                        GameEngine.monsters.checkDead();
+                        GameEngine.items.checkIfPickedUp();
                         PlayerState.useFromInventory();
                 }
         }
 }
+

@@ -2,118 +2,127 @@ package dungeonCrawlerGame.entities.monster;
 
 import dungeonCrawlerGame.Config;
 import dungeonCrawlerGame.controller.Direction;
-import dungeonCrawlerGame.entities.EnemyProperties;
 import dungeonCrawlerGame.entities.Entity;
-import dungeonCrawlerGame.entities.player.Player;
-import dungeonCrawlerGame.gameWindow.GameInit;
-import dungeonCrawlerGame.locations.DungeonMap;
+import dungeonCrawlerGame.entities.EntityAnimation;
+import dungeonCrawlerGame.gameWindow.GameEngine;
 
 import java.awt.*;
 import java.util.Random;
 
 public class Monster implements Entity {
 
-    Player player = GameInit.player;
-
-    private int posX;
-    private int posY;
-    private int health;
+    private int x;
+    private int y;
     private int locationNumber;
-    public Direction direction;
-    private Image image;
-    private final int damage;
-    private boolean dead;
+    private Direction direction;
+    private final Rectangle solidBounds = new Rectangle(x, y, Config.CELL_SIZE, Config.CELL_SIZE);
+
+    private int health;
+    private int damage;
+
     private boolean collision;
-    public boolean playerCollision;
-    private int maxHealth;
-    public Rectangle entityBounds = new Rectangle(posX, posY, Config.CELL_SIZE, Config.CELL_SIZE);
+    boolean playerCollision;
 
-    private int monsterSpeed;
-    private EnemyProperties enemy;
+    private Image image;
+    private int imageNumber;
+    private int imageDelay;
     private int turnCounter = 0;
-    private int imageCounter = 0;
-    private int imageNum = 1;
-    private int damageCounter = 0;
 
-    public Monster(int startX, int startY, int location, Direction direction, EnemyProperties enemy) {
-        this.posX = startX;
-        this.posY = startY;
-        this.locationNumber = location;
-        this.direction = direction;
-        this.maxHealth = EnemyProperties.getHealth(enemy);
-        this.damage = EnemyProperties.getDamage(enemy);
-        this.enemy = enemy;
-        this.health = maxHealth;
-    }
+    private final MonsterProperties monsterProperties;
 
-    public EnemyProperties getEnemy() {
-        return enemy;
+    public Monster(int x, int y, int locationNumber, MonsterProperties monsterProperties) {
+        this.x = x;
+        this.y = y;
+        this.locationNumber = locationNumber;
+        this.monsterProperties = monsterProperties;
     }
 
     @Override
-    public void moveEntity() {
-
-        //Cant move out of the location
-        if (posX >= Config.CELL_SIZE && posY >= Config.CELL_SIZE && posX + Config.CELL_SIZE <= Config.LOCATION_WIDTH - Config.CELL_SIZE && posY + Config.CELL_SIZE <= Config.LOCATION_HEIGHT - Config.CELL_SIZE) {
-
-            // Follow player if same location and player is nearby
-            if (playerIsPlayerNearby() && locationNumber == DungeonMap.getCurrentWorldLocation()) {
-                turnCounter = 0;
-                monsterSpeed = EnemyProperties.getHuntingSpeed(enemy);
-
-                if (!collision && !playerCollision) {
-                    if (player.getPosX() >= posX) {
-                        direction = Direction.RIGHT;
-                        posX += monsterSpeed;
-                    } else if (player.getPosX() <= posX) {
-                        direction = Direction.LEFT;
-                        posX -= monsterSpeed;
-                    }
-
-                    if (player.getPosY() >= posY) {
-                        direction = Direction.DOWN;
-                        posY += monsterSpeed;
-                    } else if (player.getPosY() <= posY) {
-                        direction = Direction.UP;
-                        posY -= monsterSpeed;
-                    }
-                }
-
-            } else {
-                monsterSpeed = EnemyProperties.getSpeed(enemy);
-                moveRandom();
-            }
-        } else {
-            if (posX <= Config.CELL_SIZE) {
-                direction = Direction.RIGHT;
-                posX += monsterSpeed;
-            } else if (posX + Config.CELL_SIZE >= Config.LOCATION_WIDTH - Config.CELL_SIZE) {
-                direction = Direction.LEFT;
-                posX -= monsterSpeed;
-            } else if (posY <= Config.CELL_SIZE) {
-                direction = Direction.DOWN;
-                posY += monsterSpeed;
-            } else {
-                direction = Direction.UP;
-                posY -= monsterSpeed;
-            }
-        }
-        imageCounter++;
-        if (imageCounter > 12) {
-            if (imageNum == 1) {
-                imageNum = 2;
-            } else if (imageNum == 2) {
-                imageNum = 1;
-            }
-            imageCounter = 0;
-        }
+    public void setPlayerMonsterCollision(boolean playerMonsterCollision){
+        this.playerCollision = playerMonsterCollision;
     }
 
-    private void moveRandom() {
-        turnCounter ++;
-        if (turnCounter == 20) {
+    @Override
+    public int getX() {
+        return this.x;
+    }
+
+    @Override
+    public int getY() {
+        return this.y;
+    }
+
+    @Override
+    public int getLocationNumber() {
+        return this.locationNumber;
+    }
+
+    @Override
+    public void setLocationNumber(int locationNumber) {
+        this.locationNumber = locationNumber;
+    }
+
+    @Override
+    public Direction getDirection() {
+        return this.direction;
+    }
+
+    @Override
+    public int getSpeed() {
+        return MonsterProperties.getSpeed(this.monsterProperties);
+    }
+
+    @Override
+    public void move() {
+        //Cant move out of the location
+        if (x >= Config.CELL_SIZE && y >= Config.CELL_SIZE && x + Config.CELL_SIZE <= Config.LOCATION_WIDTH - Config.CELL_SIZE &&
+                y + Config.CELL_SIZE <= Config.LOCATION_HEIGHT - Config.CELL_SIZE && !collision) {
+            moveRandom();
+            getImageNumber();
+        }
+        imageDelay++;
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        this.health -= damage;
+    }
+
+    @Override
+    public void attack() {
+        GameEngine.player.takeDamage(damage);
+    }
+
+    @Override
+    public int getHealth() {
+        return this.health;
+    }
+
+    @Override
+    public void setCollision(boolean collision) {
+        this.collision = collision;
+    }
+
+    @Override
+    public Rectangle getSolidBounds() {
+        return this.solidBounds;
+    }
+
+    @Override
+    public Image getImage() {
+        return monsterProperties.getImage(this.imageNumber, this.direction);
+    }
+
+    @Override
+    public void getImageNumber() {
+        this.imageNumber = EntityAnimation.getImageNumber(this.imageNumber, this.imageDelay);
+    }
+
+    public void moveRandom() {
+        turnCounter++;
+        if (turnCounter == 10) {
             Random random = new Random();
-            int i = random.nextInt(10);
+            int i = random.nextInt(4);
             switch (i) {
                 case 0:
                     direction = Direction.RIGHT;
@@ -130,133 +139,27 @@ public class Monster implements Entity {
             }
             turnCounter = 0;
         }
-        //CollisionChecker.checkCellCollision(this);
+
         if(!collision) {
             switch (direction) {
                 case RIGHT:
-                    posX += monsterSpeed;
+                    x += MonsterProperties.getSpeed(monsterProperties);
                     break;
                 case LEFT:
-                    posX -= monsterSpeed;
+                    x -= MonsterProperties.getSpeed(monsterProperties);
                     break;
                 case UP:
-                    posY -= monsterSpeed;
+                    y -= MonsterProperties.getSpeed(monsterProperties);
                     break;
                 case DOWN:
-                    posY += monsterSpeed;
+                    y += MonsterProperties.getSpeed(monsterProperties);
                     break;
             }
         }
     }
 
-    private boolean playerIsPlayerNearby() {
-        int distance = Config.CELL_SIZE * 2;
-        if (posX < player.getPosX() + distance &&
-                posX + Config.CELL_SIZE + distance > player.getPosX() &&
-                posY < player.getPosY() + distance &&
-                posY + Config.CELL_SIZE + distance > player.getPosY()) {
-            return true;
-        } else {
-            return false;
-        }
+    public MonsterProperties getMonsterProperties() {
+        return this.monsterProperties;
     }
 
-    @Override
-    public Rectangle getBounds() {
-        return entityBounds;
-    }
-
-    @Override
-    public int getPosX() {
-        return this.posX;
-    }
-
-    @Override
-    public int getPosY() {
-        return this.posY;
-    }
-
-    @Override
-    public int getHealth() {
-       return this.health;
-    }
-
-    @Override
-    public void takeDamage(int i) {
-        health = health - i;
-    }
-
-    @Override
-    public int getSpeed() {
-        return this.monsterSpeed;
-    }
-
-    @Override
-    public void setCollision(boolean collision) {
-        this.collision = collision;
-    }
-
-    @Override
-    public void setLocationNumber(int locationNumber) {
-        this.locationNumber = locationNumber;
-    }
-
-    @Override
-    public void setPlayerMonsterCollision(boolean playerCollision) {
-        this.playerCollision = playerCollision;
-    }
-
-    @Override
-    public int getLocationNumber() {
-        return this.locationNumber;
-    }
-
-    @Override
-    public Direction getDirection() {
-        return this.direction;
-    }
-
-    @Override
-    public Image getImage() {
-        switch (direction) {
-            case UP:
-                if (imageNum == 1) {
-                    image = EnemyProperties.BAT_UP1.getImage();
-                } else if (imageNum == 2) {
-                    image = EnemyProperties.BAT_UP2.getImage();
-                }
-                break;
-            case DOWN:
-                if (imageNum == 1) {
-                    image = EnemyProperties.BAT_DOWN1.getImage();
-                } else if (imageNum == 2) {
-                        image = EnemyProperties.BAT_DOWN2.getImage();
-                }
-                break;
-            case LEFT:
-                if (imageNum == 1) {
-                    image = EnemyProperties.BAT_LEFT1.getImage();
-                } else if (imageNum == 2) {
-                    image = EnemyProperties.BAT_LEFT2.getImage();
-                }
-                break;
-            case RIGHT:
-                if (imageNum == 1) {
-                    image = EnemyProperties.BAT_RIGHT1.getImage();
-                } else if (imageNum == 2) {
-                    image = EnemyProperties.BAT_RIGHT2.getImage();
-                }
-                break;
-        }
-        return image;
-    }
-
-    @Override
-    public void attacks() {
-        damageCounter++;
-        if (damageCounter == 30) {
-            damageCounter = 0;
-            GameInit.player.takeDamage(this.damage);
-        }
-    }
 }
